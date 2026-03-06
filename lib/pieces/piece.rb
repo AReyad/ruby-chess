@@ -5,10 +5,12 @@ class Piece
 
   include Move
   include ChessSymbols
-  ALL_DIRECTIONS = { north: [1, 0], east: [0, 1],
-                     west: [0, -1], south: [-1, 1],
-                     north_east: [1, 1], north_west: [1, -1],
-                     south_east: [-1, 1], south_west: [-1, -1] }.freeze
+
+  ALL_DIRECTIONS = { north: [-1, 0], east: [0, 1],
+                     west: [0, -1], south: [1, 0],
+                     north_east: [-1, 1], north_west: [-1, -1],
+                     south_east: [1, 1], south_west: [1, -1] }.freeze
+
   PIECE_COLORS = { 'black' => '0;0;0', 'white' => '255;255;255' }.freeze
 
   def initialize(color)
