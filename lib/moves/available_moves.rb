@@ -20,7 +20,7 @@ module AvailableMoves
         current_step = add_two_moves(move, current_step)
         result << current_step
 
-        break if board.occupied_square?(current_step) || !move_within_range?(current_step)
+        break if blocked_piece?(current_step, board)
       end
     end
     result
@@ -40,12 +40,20 @@ module AvailableMoves
 
   def available_moves(position, board)
     all_moves(position, board)
-      .select { |move| move_within_range?(move) && !team_occupied_square?(move, board) }
+      .select { |move| valid_move(move, board) }
+  end
+
+  def blocked_piece?(position, board)
+    !move_within_range?(position) || board.occupied_square?(position)
   end
 
   def team_occupied_square?(position, board)
     other_piece = board.at(position)
     color == other_piece&.color
+  end
+
+  def valid_move(move, board)
+    move_within_range?(move) && !team_occupied_square?(move, board)
   end
 
   def move_within_range?(move)
