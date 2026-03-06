@@ -1,7 +1,7 @@
 require_relative 'chess_symbols'
 
 class Piece
-  attr_reader :color, :symbol, :name, :moved
+  attr_reader :color, :symbol, :name, :moves
 
   include Move
   include ChessSymbols
@@ -42,6 +42,14 @@ class Piece
 
   def moves_regularly?
     %w[knight king].include?(name)
+  end
+
+  def moved?
+    moves.positive?
+  end
+
+  def increment_moves
+    @moves += 1
   end
 
   def to_s
