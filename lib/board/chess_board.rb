@@ -13,15 +13,10 @@ class ChessBoard
   end
 
   def at(position)
+    position = convert_move(position) if position.is_a?(String)
     row = position[0]
     col = position[1]
     board[row][col]
-  end
-
-  def occupied_square?(position)
-    row = position[0]
-    col = position[1]
-    !board[row][col].nil?
   end
 
   private
