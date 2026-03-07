@@ -3,7 +3,7 @@ require_relative 'chess_symbols'
 class Piece
   attr_reader :color, :symbol, :name, :moves
 
-  include Move
+  include AvailableMoves
   include ChessSymbols
 
   ALL_DIRECTIONS = { north: [-1, 0], east: [0, 1],
