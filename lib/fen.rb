@@ -1,10 +1,12 @@
 module Fen
   INITIAL_PIECE_PLACEMENT = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
 
-  CHESS_PIECES_NOTATION = { 'n' => Knight.new('black'), 'r' => Rook.new('black'), 'b' => Bishop.new('black'),
-                            'q' => Queen.new('black'), 'k' => King.new('black'), 'p' => Pawn.new('black'),
-                            'N' => Knight.new('white'), 'R' => Rook.new('white'), 'B' => Bishop.new('white'),
-                            'Q' => Queen.new('white'), 'K' => King.new('white'), 'P' => Pawn.new('white') }.freeze
+  PIECES_NOTATION = { 'n' => { name: Knight, color: 'black' }, 'r' => { name: Rook, color: 'black' },
+                      'b' => { name: Bishop, color: 'black' }, 'q' => { name: Queen, color: 'black' },
+                      'k' => { name: King, color: 'black' },   'p' => { name: Pawn, color: 'black' },
+                      'N' => { name: Knight, color: 'white' }, 'R' => { name: Rook, color: 'white' },
+                      'B' => { name: Bishop, color: 'white' }, 'Q' => { name: Queen, color: 'white' },
+                      'K' => { name: King, color: 'white' },   'P' => { name: Pawn, color: 'white' } }.freeze
 
   module_function
 
@@ -19,10 +21,13 @@ module Fen
     fen_array = board_fen_array(string)
     fen_array.map do |array|
       array.map do |ele|
-        ele = CHESS_PIECES_NOTATION[ele]
-        ele if CHESS_PIECES_NOTATION[ele].nil?
+        piece(ele) if PIECES_NOTATION[ele]
       end
     end
+  end
+
+  def piece(letter)
+    CreatePiece.create_piece(PIECES_NOTATION[letter][:name], PIECES_NOTATION[letter][:color])
   end
 
   def substitute_fen_digits(string)
@@ -43,7 +48,7 @@ module Fen
     string = ''
     board.each do |row|
       row.each do |ele|
-        key = CHESS_PIECES_NOTATION.key(ele)
+        key = PIECES_NOTATION.key(ele)
         key = '1' if ele.nil?
         string += key
       end
