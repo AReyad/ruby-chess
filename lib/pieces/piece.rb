@@ -52,6 +52,10 @@ class Piece
     @moves += 1
   end
 
+  def symbol_for_highlight
+    "\e[38;2;#{PIECE_COLORS[color]}m#{symbol} \e[0m"
+  end
+
   def to_s
     Colorize.foreground(PIECE_COLORS[color], symbol)
   end
