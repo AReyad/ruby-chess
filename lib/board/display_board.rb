@@ -24,8 +24,9 @@ module DisplayBoard
     row = pos[0]
     col = pos[1]
     square = board[row][col]
-    board[row][col] = Colorize.highlight('15;90;32', "\u2022", square.symbol_for_highlight) unless square.nil?
-    board[row][col] = Colorize.foreground('15;90;32', "\u2022") if square.nil?
+    return board[row][col] = Colorize.highlight('15;90;32', "\u2022", square.symbol_for_highlight) unless square.nil?
+
+    board[row][col] = Colorize.foreground('15;90;32', "\u2022")
   end
 
   def highlight_display(positions)
