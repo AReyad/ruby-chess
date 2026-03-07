@@ -25,11 +25,6 @@ module Fen
     end
   end
 
-  def parse_fen(string)
-    fen_sequences = fen_string_to_array(string)
-    board_from_fen(fen_sequences)
-  end
-
   def substitute_fen_digits(string)
     string.gsub(/\d/) { |match| ' ' * match.to_i }
   end
@@ -56,6 +51,4 @@ module Fen
     end
     sum_fen_digits(string)
   end
-
-  # module_function :board_from_fen, :board_fen_array, :sum_fen_digits, :substitute_fen_digits
 end
