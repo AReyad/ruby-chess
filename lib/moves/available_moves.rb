@@ -2,6 +2,11 @@ module AvailableMoves
   LOWEST_BOARD_INDEX = 0
   HIGHEST_BOARD_INDEX = 7
 
+  def available_moves(position, board)
+    all_moves(position, board)
+      .select { |move| valid_move(move, board) }
+  end
+
   def add_two_moves(first_move, second_move)
     [first_move[0] + second_move[0], first_move[1] + second_move[1]]
   end
@@ -9,7 +14,7 @@ module AvailableMoves
   def all_moves(position, board)
     return consecutive_moves(position, board) if moves_consecutively?
 
-    regular_moves(position) if moves_regularly?
+    regular_moves(position)
   end
 
   def consecutive_moves(position, board)
@@ -36,11 +41,6 @@ module AvailableMoves
       result << current_step
     end
     result
-  end
-
-  def available_moves(position, board)
-    all_moves(position, board)
-      .select { |move| valid_move(move, board) }
   end
 
   def blocked_piece?(position, board)
