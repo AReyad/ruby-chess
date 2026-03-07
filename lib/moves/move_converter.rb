@@ -18,4 +18,12 @@ module MoveConverter
     algebraic_letter = FILE_TO_INDEX.key(file)
     algebraic_letter + rank
   end
+
+  def convert_moves(moves)
+    string = ''
+    moves.each do |move|
+      string += convert_move(move) + ', '
+    end
+    string.reverse.sub(' ,', '').reverse
+  end
 end
