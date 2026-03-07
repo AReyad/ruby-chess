@@ -19,4 +19,20 @@ module DisplayBoard
       puts ''
     end
   end
+
+  def highlight_position(board, pos)
+    row = pos[0]
+    col = pos[1]
+    square = board[row][col]
+    board[row][col] = Colorize.highlight('15;90;32', "\u2022", square.symbol_for_highlight) unless square.nil?
+    board[row][col] = Colorize.foreground('15;90;32', "\u2022") if square.nil?
+  end
+
+  def highlight_display(positions)
+    puts ''
+    board_clone = Marshal.load(Marshal.dump(board))
+    positions.each { |position| highlight_position(board_clone, position) }
+    display_board(board_clone)
+    puts COLUMNS_LABELS
+  end
 end
