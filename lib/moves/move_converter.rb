@@ -20,10 +20,8 @@ module MoveConverter
   end
 
   def convert_moves(moves)
-    string = ''
-    moves.each do |move|
-      string += convert_move(move) + ', '
-    end
-    string.reverse.sub(' ,', '').reverse
+    moves.map do |move|
+      convert_move(move)
+    end.join(', ')
   end
 end
