@@ -1,4 +1,5 @@
 require_relative 'chess_symbols'
+require_relative '../moves/available_moves'
 
 class Piece
   attr_reader :color, :symbol, :name, :moves
@@ -10,8 +11,6 @@ class Piece
                      west: [0, -1], south: [1, 0],
                      north_east: [-1, 1], north_west: [-1, -1],
                      south_east: [1, 1], south_west: [1, -1] }.freeze
-
-  PIECE_COLORS = { 'black' => '0;0;0', 'white' => '255;255;255' }.freeze
 
   def initialize(color)
     @name = self.class.to_s.downcase
@@ -48,16 +47,16 @@ class Piece
     moves.positive?
   end
 
-  def increment_moves
-    @moves += 1
+  def piece_color
+    Palette.color(color)
   end
 
   def symbol_for_highlight
-    "\e[38;2;#{PIECE_COLORS[color]}m#{symbol} \e[0m"
+    "\e[38;2;#{piece_color}m#{symbol} \e[0m"
   end
 
   def to_s
-    Colorize.foreground(PIECE_COLORS[color], symbol)
+    Colorize.foreground(piece_color, symbol)
   end
 
   private
@@ -65,4 +64,6 @@ class Piece
   def chess_symbol
     CHESS_SYMBOLS[name]
   end
+
+  attr_writer :moves
 end
