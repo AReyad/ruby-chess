@@ -1,5 +1,6 @@
 require_relative 'chess_symbols'
 require_relative '../moves/available_moves'
+
 module Chess
   class Piece
     attr_reader :color, :symbol, :name, :moves
@@ -13,7 +14,7 @@ module Chess
                        south_east: [1, 1], south_west: [1, -1] }.freeze
 
     def initialize(color)
-      @name = self.class.to_s.downcase
+      @name = piece_name
       @color = color
       @symbol = chess_symbol
       @moves = 0
@@ -60,6 +61,11 @@ module Chess
     end
 
     private
+
+    def piece_name
+      name = self.class.name.to_s.downcase
+      name.split(':')[2]
+    end
 
     def chess_symbol
       CHESS_SYMBOLS[name]
