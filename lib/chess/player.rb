@@ -1,0 +1,8 @@
+module Chess
+  class Player
+    def initialize(name, color)
+      @name = name
+      @color = color
+    end
+  end
+end
