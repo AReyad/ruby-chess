@@ -6,7 +6,7 @@ module Chess
     end
 
     def can_move?(position, piece)
-      !piece.available_moves(position, board).empty?
+      !piece.available_moves(position, self).empty?
     end
 
     def king_in_check?(color, king_position = find_piece_position(color, 'king'))

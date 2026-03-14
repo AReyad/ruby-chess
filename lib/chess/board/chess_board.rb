@@ -31,6 +31,8 @@ module Chess
 
     def selectable?(position, color)
       piece = at(position)
+      return if piece.nil?
+
       can_move?(position, piece) && piece_match_color?(piece, color)
     end
 
