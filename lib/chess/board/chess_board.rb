@@ -9,12 +9,12 @@ module Chess
     include PieceHandler
 
     def initialize(board = Fen.generate_board)
-      @board = board
+      @game_board = board
     end
 
     def display
       puts ''
-      display_board(board)
+      display_board(game_board)
       print COLUMNS_LABELS
     end
 
@@ -22,7 +22,7 @@ module Chess
       position = convert_move(position) if position.is_a?(String)
       row = position[0]
       col = position[1]
-      board[row][col]
+      game_board[row][col]
     end
 
     def occupied_square?(position)
@@ -31,17 +31,21 @@ module Chess
 
     def selectable?(position, color)
       piece = at(position)
-      return if piece.nil?
+      return false if piece.nil?
 
       can_move?(position, piece) && piece_match_color?(piece, color)
+    end
+
+    def clone(obj)
+      Marshal.load(Marshal.dump(obj))
     end
 
     private
 
     def change_value(position, value)
-      board[position[0]][position[1]] = value
+      game_board[position[0]][position[1]] = value
     end
 
-    attr_reader :board
+    attr_reader :game_board
   end
 end

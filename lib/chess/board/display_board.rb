@@ -37,7 +37,7 @@ module Chess
 
     def highlight_display(positions)
       puts ''
-      board_clone = Marshal.load(Marshal.dump(board))
+      board_clone = clone(game_board)
       positions.each { |position| highlight_position(board_clone, position) }
       display_board(board_clone)
       puts COLUMNS_LABELS
