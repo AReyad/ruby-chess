@@ -5,6 +5,7 @@ module Chess
     BOARD_SIZE = 8
     LIGHT_SQUARE = Palette.color('red').freeze
     DARK_SQUARE = Palette.color('reddish_brown').freeze
+    GREEN_CIRCLE = "\u2022"
 
     def row_labels(index)
       "#{BOARD_SIZE - index} "
@@ -30,9 +31,9 @@ module Chess
       col = pos[1]
       square = board[row][col]
       color = Palette.color('green')
-      return board[row][col] = Colorize.highlight(color, "\u2022", square.symbol_for_highlight) unless square.nil?
+      return board[row][col] = Colorize.highlight(color, GREEN_CIRCLE, square.symbol_for_highlight) unless square.nil?
 
-      board[row][col] = Colorize.foreground(color, "\u2022")
+      board[row][col] = Colorize.foreground(color, GREEN_CIRCLE)
     end
 
     def highlight_display(positions)
