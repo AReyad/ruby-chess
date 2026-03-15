@@ -3,7 +3,7 @@ require_relative '../moves/available_moves'
 
 module Chess
   class Piece
-    attr_reader :color, :symbol, :name, :moves
+    attr_reader :color, :symbol, :name
 
     include AvailableMoves
     include ChessSymbols
@@ -17,7 +17,6 @@ module Chess
       @name = piece_name
       @color = color
       @symbol = chess_symbol
-      @moves = 0
     end
 
     def piece_directions
@@ -45,7 +44,7 @@ module Chess
     end
 
     def moved?
-      moves.positive?
+      false
     end
 
     def piece_color
@@ -70,7 +69,5 @@ module Chess
     def chess_symbol
       CHESS_SYMBOLS[name]
     end
-
-    attr_writer :moves
   end
 end
