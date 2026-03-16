@@ -33,6 +33,7 @@ module Chess
         current_step = position
         move.each do |step|
           current_step = add_two_moves(step, current_step)
+          break if blocked_piece?(current_step, board)
         end
         result << current_step unless board.occupied_square?(current_step)
       end
