@@ -4,8 +4,13 @@ module Chess
                   [:south], [:south_east], [:east]].freeze
 
     def safe_moves(position, board)
-      available_moves(position, board)
-        .reject { |move| board.king_in_check?(color, move) }
+      board_clone = Marshal.load(Marshal.dump(board))
+      current_position = position
+      available_moves(position, board).reject do |move|
+        board_clone.move_piece(current_position, move)
+        current_position = move
+        board_clone.king_in_check?(color, move)
+      end
     end
   end
 end
