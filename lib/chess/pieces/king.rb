@@ -6,11 +6,23 @@ module Chess
     def safe_moves(position, board)
       board_clone = Marshal.load(Marshal.dump(board))
       current_position = position
-      available_moves(position, board).reject do |move|
+      opponent_positions = board_clone.opponent_positions(color)
+      moves = available_moves(position, board) << castling_moves(board, position)
+      moves.compact.reject do |move|
         board_clone.move_piece(current_position, move)
         current_position = move
-        board_clone.king_in_check?(color, move)
+        board_clone.king_in_check?(color, current_position, opponent_positions)
       end
+    end
+
+    def castling_moves(board, position)
+      default_position = board.default_king_position(color)
+      return unless position == default_position
+      return unless board.castlable?(color, board, default_position)
+
+      return board.white_castling_moves(color, board, default_position) if white?
+
+      board.black_castling_moves(color, board, default_position)
     end
   end
 end
