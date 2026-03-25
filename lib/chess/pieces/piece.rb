@@ -19,6 +19,18 @@ module Chess
       @symbol = chess_symbol
     end
 
+    def safe_moves(position, board)
+      board_clone = Marshal.load(Marshal.dump(board))
+      current_position = position
+      king_position = board.find_king(color)
+      opponent_positions = board.opponent_positions(color)
+      available_moves(position, board).reject do |move|
+        board_clone.move_piece(current_position, move)
+        current_position = move
+        board_clone.king_in_check?(color, king_position, opponent_positions)
+      end
+    end
+
     def piece_directions
       self.class::DIRECTIONS
     end
@@ -43,12 +55,24 @@ module Chess
       %w[knight king].include?(name)
     end
 
-    def moved?
-      false
-    end
-
     def piece_color
       Palette.color(color)
+    end
+
+    def white?
+      color == 'white'
+    end
+
+    def black?
+      color == 'black'
+    end
+
+    def pawn?
+      name == 'pawn'
+    end
+
+    def king?
+      name == 'king'
     end
 
     def symbol_for_highlight
@@ -62,7 +86,7 @@ module Chess
     private
 
     def piece_name
-      name = self.class.name.to_s.downcase
+      name = self.class.to_s.downcase
       name.split(':')[2]
     end
 
