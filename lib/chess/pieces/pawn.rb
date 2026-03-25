@@ -1,7 +1,7 @@
 module Chess
   class Pawn < Piece
     def piece_directions
-      if color == 'white'
+      if white?
         { first_move: [%i[north], %i[north north]],
           regular_move: [%i[north]],
           capture_move: [%i[north_west], %i[north_east]] }
@@ -13,13 +13,31 @@ module Chess
     end
 
     def all_moves(position, board)
-      result = regular_moves(position, board, :first_move) unless moved?
+      result = regular_moves(position, board, :first_move) unless moved?(position)
 
-      result = regular_moves(position, board, :regular_move) if moved?
+      result = regular_moves(position, board, :regular_move) if moved?(position)
       result + capture_moves(position, board)
     end
 
+    def moved?(position)
+      row = position[0]
+      return row != STARTING_ROW_BLACK if black?
+
+      row != STARTING_ROW_WHITE
+    end
+
+    def enpassent?(position, destination)
+      current_row = position[0]
+      destination_row = destination[0]
+      return current_row == STARTING_ROW_BLACK && destination_row == STARTING_ROW_BLACK + 2 if color == 'black'
+
+      current_row == STARTING_ROW_WHITE && destination_row == STARTING_ROW_WHITE - 2
+    end
+
     private
+
+    STARTING_ROW_BLACK = 1
+    STARTING_ROW_WHITE = 6
 
     def move_set(move)
       piece_directions[move].map do |direction|
@@ -33,7 +51,7 @@ module Chess
         current_step = position
         move.each do |step|
           current_step = add_two_moves(step, current_step)
-          break if blocked_piece?(current_step, board)
+          break if board.occupied_square?(current_step)
         end
         result << current_step unless board.occupied_square?(current_step)
       end
@@ -47,7 +65,7 @@ module Chess
         move.each do |step|
           current_step = add_two_moves(step, current_step)
         end
-        result << current_step if board.occupied_square?(current_step)
+        result << current_step if board.occupied_square?(current_step) || board.enpassent_square?(current_step)
       end
       result
     end
