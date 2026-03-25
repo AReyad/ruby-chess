@@ -7,14 +7,16 @@ module Chess
     include DisplayBoard
     include MoveConverter
     include PieceHandler
+    include MovesHandler
 
-    def initialize(board = Fen.generate_board)
+    def initialize(board = Fen.generate_board, fen = Fen.new)
       @game_board = board
+      @fen = fen
     end
 
-    def display
-      puts ''
-      display_board(game_board)
+    def display(board = game_board)
+      system 'clear'
+      display_board(board)
       print COLUMNS_LABELS
     end
 
@@ -29,11 +31,26 @@ module Chess
       !at(position).nil?
     end
 
+    def enpassent_square?(position)
+      enpassent_square = fens.enpassent
+      return false if enpassent_square.nil?
+
+      convert_move(enpassent_square) == position
+    end
+
+    def castling_rights?(side)
+      @fen.has_castling_rights?(side)
+    end
+
     def selectable?(position, color)
       piece = at(position)
       return false if piece.nil?
 
       can_move?(position, piece) && piece_match_color?(piece, color)
+    end
+
+    def valid_move?(moves, move)
+      moves.include?(move)
     end
 
     def clone(obj)
@@ -46,6 +63,6 @@ module Chess
       game_board[position[0]][position[1]] = value
     end
 
-    attr_reader :game_board
+    attr_reader :game_board, :fens
   end
 end
