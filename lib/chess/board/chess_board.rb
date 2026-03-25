@@ -9,9 +9,9 @@ module Chess
     include PieceHandler
     include MovesHandler
 
-    def initialize(board = Fen.generate_board, fen = Fen.new)
-      @game_board = board
+    def initialize(placement_string = Fen::INITIAL_PIECE_PLACEMENT, fen = Fen.new)
       @fen = fen
+      @game_board = fen.generate_board(placement_string)
     end
 
     def display(board = game_board)
@@ -32,7 +32,7 @@ module Chess
     end
 
     def enpassent_square?(position)
-      enpassent_square = fens.enpassent
+      enpassent_square = fen.enpassent
       return false if enpassent_square.nil?
 
       convert_move(enpassent_square) == position
@@ -63,6 +63,6 @@ module Chess
       game_board[position[0]][position[1]] = value
     end
 
-    attr_reader :game_board, :fens
+    attr_reader :game_board, :fen
   end
 end
