@@ -1,6 +1,7 @@
 module Chess
-  module Fen
-    INITIAL_PIECE_PLACEMENT = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
+  # Converts Fen Placement string to board and board to Fen Placement string
+  module FenConverter
+    INITIAL_PIECE_PLACEMENT = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.freeze
 
     PIECES_NOTATION = { 'n' => { name: Knight, color: 'black' }, 'r' => { name: Rook, color: 'black' },
                         'b' => { name: Bishop, color: 'black' }, 'q' => { name: Queen, color: 'black' },
@@ -8,8 +9,6 @@ module Chess
                         'N' => { name: Knight, color: 'white' }, 'R' => { name: Rook, color: 'white' },
                         'B' => { name: Bishop, color: 'white' }, 'Q' => { name: Queen, color: 'white' },
                         'K' => { name: King, color: 'white' },   'P' => { name: Pawn, color: 'white' } }.freeze
-
-    module_function
 
     def board_fen_array(string)
       fen_array = substitute_fen_digits(string).split('/')
@@ -28,7 +27,7 @@ module Chess
     end
 
     def piece(letter)
-      CreatePiece.create_piece(PIECES_NOTATION[letter][:name], PIECES_NOTATION[letter][:color])
+      CreatePiece.piece(PIECES_NOTATION[letter][:name], PIECES_NOTATION[letter][:color])
     end
 
     def substitute_fen_digits(string)
