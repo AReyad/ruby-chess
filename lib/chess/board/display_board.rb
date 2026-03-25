@@ -5,7 +5,7 @@ module Chess
     BOARD_SIZE = 8
     LIGHT_SQUARE = Palette.color('red').freeze
     DARK_SQUARE = Palette.color('reddish_brown').freeze
-    GREEN_CIRCLE = "\u2022"
+    GREEN_CIRCLE = "\u2022".freeze
 
     def row_labels(index)
       "#{BOARD_SIZE - index} "
@@ -37,11 +37,9 @@ module Chess
     end
 
     def highlight_display(positions)
-      puts ''
       board_clone = clone(game_board)
       positions.each { |position| highlight_position(board_clone, position) }
-      display_board(board_clone)
-      puts COLUMNS_LABELS
+      display(board_clone)
     end
   end
 end
