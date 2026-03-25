@@ -29,7 +29,7 @@ module Chess
     def enpassent?(position, destination)
       current_row = position[0]
       destination_row = destination[0]
-      return current_row == STARTING_ROW_BLACK && destination_row == STARTING_ROW_BLACK + 2 if color == 'black'
+      return current_row == STARTING_ROW_BLACK && destination_row == STARTING_ROW_BLACK + 2 if black?
 
       current_row == STARTING_ROW_WHITE && destination_row == STARTING_ROW_WHITE - 2
     end
