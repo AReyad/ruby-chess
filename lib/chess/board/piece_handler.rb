@@ -1,30 +1,53 @@
 module Chess
   module PieceHandler
-    def move_piece(piece_pos, target_pos)
-      change_value(target_pos, at(piece_pos))
-      change_value(piece_pos, nil)
+    include EnPassent
+    def move_piece(piece_position, destination)
+      change_value(destination, at(piece_position))
+      change_value(piece_position, nil)
+    end
+
+    def capture_enpassent(piece_position, destination)
+      return unless at(piece_position).pawn?
+
+      enpassent_piece_position = enpassent_to_capture(piece_position, destination, self)
+      return unless enpassent_square?(destination)
+
+      change_value(enpassent_piece_position, nil)
     end
 
     def can_move?(position, piece)
-      return !piece.safe_king_moves(position, self).empty? if piece_match_name?(piece, 'king')
-
-      !piece.available_moves(position, self).empty?
+      !piece.safe_moves(position, self).empty?
     end
 
-    def king_in_check?(color, king_position = find_king(color))
-      opponent_positions(color).any? do |position|
+    def king_in_check?(color, king_position = find_king(color), opponent_positions = opponent_positions(color))
+      opponent_positions.any? do |position|
         at(position).available_moves(position, self).include?(king_position)
       end
     end
 
-    def can_defend_king?(position, color)
+    def king_can_escape?(color)
+      king_position = find_king(color)
+      king = at(find_king(color))
+      opponent_positions = opponent_positions(color)
+      !king.safe_moves(king_position, self).empty? && team_positions(color).any? do |position|
+        can_defend_king?(position, color, opponent_positions)
+      end
+    end
+
+    def can_defend_king?(position, color, opponent_positions = opponent_positions(color))
       board = Marshal.load(Marshal.dump(self))
       current_position = position
+      king_position = find_king(color)
       board.at(position).available_moves(position, board).any? do |move|
         board.move_piece(current_position, move)
         current_position = move
-        !board.king_in_check?(color)
+        !board.king_in_check?(color, king_position, opponent_positions)
       end
+    end
+
+    def in_check_selectable?(position, color)
+      piece = at(position)
+      piece.king? || can_defend_king?(position, color)
     end
 
     def find_piece_position(color, name)
@@ -53,6 +76,10 @@ module Chess
 
     def opponent_positions(color)
       find_pieces_positions(opponent_color(color))
+    end
+
+    def team_positions(color)
+      find_pieces_positions(color)
     end
 
     def opponent_color(color)
