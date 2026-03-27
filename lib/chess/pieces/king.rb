@@ -4,11 +4,11 @@ module Chess
                   [:south], [:south_east], [:east]].freeze
 
     def safe_moves(position, board)
-      board_clone = Marshal.load(Marshal.dump(board))
+      board_clone = board.clone
       current_position = position
       opponent_positions = board_clone.opponent_positions(color)
-      moves = available_moves(position, board) << castling_moves(board, position)
-      moves.compact.reject do |move|
+      moves = (available_moves(position, board) + castling_moves(board, position)).reject(&:empty?)
+      moves.reject do |move|
         board_clone.move_piece(current_position, move)
         current_position = move
         board_clone.king_in_check?(color, current_position, opponent_positions)
@@ -17,8 +17,8 @@ module Chess
 
     def castling_moves(board, position)
       default_position = board.default_king_position(color)
-      return unless position == default_position
-      return unless board.castlable?(color, board, default_position)
+      return [] unless position == default_position
+      return [] unless board.castlable?(color, board, default_position)
 
       return board.white_castling_moves(color, board, default_position) if white?
 
