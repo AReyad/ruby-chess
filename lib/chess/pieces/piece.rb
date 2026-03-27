@@ -20,7 +20,7 @@ module Chess
     end
 
     def safe_moves(position, board)
-      board_clone = Marshal.load(Marshal.dump(board))
+      board_clone = board.clone
       current_position = position
       king_position = board.find_king(color)
       opponent_positions = board.opponent_positions(color)
