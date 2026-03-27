@@ -23,7 +23,7 @@ module Chess
     end
 
     def post_selection(moves)
-      puts "=> Pick a move from the following: (#{MoveConverter.convert_moves(moves)}) or type back to return"
+      puts "=> Pick a move from the following: (#{MoveConverter.convert_moves(moves)}) or type back to select another piece"
     end
 
     def no_safe_moves(piece)
