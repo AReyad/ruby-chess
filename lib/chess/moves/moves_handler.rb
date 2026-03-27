@@ -14,5 +14,19 @@ module Chess
 
       move_piece(position, destination)
     end
+
+    def move_piece(piece_position, destination)
+      change_value(destination, at(piece_position))
+      change_value(piece_position, nil)
+    end
+
+    def capture_enpassent(piece_position, destination)
+      return unless at(piece_position).pawn?
+
+      enpassent_piece_position = enpassent_to_capture(piece_position, destination, self)
+      return unless enpassent_square?(destination)
+
+      change_value(enpassent_piece_position, nil)
+    end
   end
 end
