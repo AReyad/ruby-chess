@@ -9,12 +9,16 @@ module Chess
     end
 
     def white_castling_moves(color, board, position)
+      return [CASTLING_MOVES['K'], CASTLING_MOVES['Q']] if castlable?(color, board, position)
+
       return CASTLING_MOVES['K'] if castlable_kingside?(color, board, position)
 
       CASTLING_MOVES['Q'] if castlable_queenside?(color, board, position)
     end
 
     def black_castling_moves(color, board, position)
+      return CASTLING_MOVES['k'], CASTLING_MOVES['q'] if castlable?(color, board, position)
+
       return CASTLING_MOVES['k'] if castlable_kingside?(color, board, position)
 
       CASTLING_MOVES['q'] if castlable_queenside?(color, board, position)
