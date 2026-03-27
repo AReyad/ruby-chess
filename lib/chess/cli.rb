@@ -3,7 +3,7 @@ module Chess
     module_function
 
     def turn(player)
-      print "=> #{player.name}'s turn select a piece to move or type save to save & exit: "
+      print "=> #{player.name}'s turn select a piece to move or type (exit) to quit: "
     end
 
     def invalid_selection(player, piece)
