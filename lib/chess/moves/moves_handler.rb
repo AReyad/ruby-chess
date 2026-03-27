@@ -11,7 +11,7 @@ module Chess
       return castling(color, position, destination) if piece.king? && castling_move?(color, position, destination)
 
       capture_enpassent(position, destination) if piece.pawn? && enpassent_square?(destination)
-
+      fen.update(position, destination, self)
       move_piece(position, destination)
     end
 
