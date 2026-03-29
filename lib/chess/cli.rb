@@ -68,5 +68,9 @@ module Chess
     def invalid_load
       puts 'Invalid load number, please choose a correct number from above.'
     end
+
+    def invalid_promotion
+      puts 'Invalid promotion number, please choose a correct number from above.'
+    end
   end
 end
