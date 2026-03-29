@@ -44,12 +44,12 @@ module Chess
       data[:halfmove] == 100 && data[:fullmove] > 49
     end
 
-    def can_draw?
-      data[:halfmove] == 100 && data[:fullmove] > 49
-    end
-
     def update_placement(placement)
       data[:placement] = placement
+    end
+
+    def to_board
+      generate_board(data[:placement])
     end
 
     private

@@ -9,9 +9,9 @@ module Chess
     include PieceHandler
     include MovesHandler
 
-    def initialize(placement_string = Fen::INITIAL_PIECE_PLACEMENT, fen_data = Fen::INITIAL_FEN)
+    def initialize(fen_data = Fen::INITIAL_FEN)
       @fen = Fen.new(fen_data)
-      @game_board = fen.generate_board(placement_string)
+      @game_board = fen.to_board
     end
 
     def display(board = game_board)
