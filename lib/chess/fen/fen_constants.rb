@@ -9,7 +9,6 @@ module Chess
                     threefold: { w: [], b: [] } }
 
     INITIAL_PIECE_PLACEMENT = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.freeze
-    INITIAL_PIECE_PLACEMENT = '8/P7/8/8/8/8/8/8'.freeze
 
     PIECES_NOTATION = { 'n' => { name: Chess::Knight, color: 'black' }, 'r' => { name: Chess::Rook, color: 'black' },
                         'b' => { name: Chess::Bishop, color: 'black' }, 'q' => { name: Chess::Queen, color: 'black' },
