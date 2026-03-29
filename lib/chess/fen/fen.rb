@@ -2,15 +2,8 @@ require_relative 'fen_converter'
 module Chess
   class Fen
     include FenConverter
-    INITIAL_FEN = { placement: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
-                    turn: 'w',
-                    castling: 'KQkq',
-                    enpassent: '-',
-                    halfmove: 0,
-                    fullmove: 1 }
     def initialize(data = INITIAL_FEN)
       @data = data
-      @threefold = { w: [], b: [] }
     end
 
     def create_fen_string
@@ -43,6 +36,10 @@ module Chess
       data[:enpassent]
     end
 
+    def cloned_data
+      JSON.parse(JSON.dump(data))
+    end
+
     def hundred_regular_moves?
       data[:halfmove] == 100 && data[:fullmove] > 49
     end
@@ -51,12 +48,16 @@ module Chess
       data[:halfmove] == 100 && data[:fullmove] > 49
     end
 
+    def update_placement(placement)
+      data[:placement] = placement
+    end
+
     private
 
     def update_turn
-      return data[:turn] = 'b' if data[:turn] == 'a'
+      return data[:turn] = 'b' if data[:turn] == 'w'
 
-      data[:turn] = 'a'
+      data[:turn] = 'w'
     end
 
     def update_halfmove(position, destination, board)
@@ -79,9 +80,9 @@ module Chess
       col = position[1]
       return update_king_rights(piece) if piece.king?
 
-      return update_queenside_rights(piece) if col.zero?
+      return update_queenside_rights(piece) if col.zero? && piece.name == 'rook'
 
-      update_kingside_rights(piece) if col == 7
+      update_kingside_rights(piece) if col == 7 && piece.name == 'rook'
     end
 
     def update_kingside_rights(piece)
