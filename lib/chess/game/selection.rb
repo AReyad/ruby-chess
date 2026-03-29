@@ -18,29 +18,27 @@ module Chess
       board.display
       if board.king_in_check?(player.color)
         CLI.king_in_check
-        return incheck_piece_selection(player)
+        return piece_selection(player, true)
       end
 
       CLI.turn(player)
-      regular_piece_selection(player)
+      piece_selection(player, false)
     end
 
-    def regular_piece_selection(player)
+    def piece_selection(player, in_check)
       loop do
         input = player.selection until input
-        return input if %w[save exit].include?(input) || board.selectable?(input, player.color)
 
-        CLI.invalid_selection(player, board.at(input))
+        return input if valid_selection?(player, input)
+
+        piece = board.at(input)
+        CLI.invalid_selection(player, piece) unless in_check
+        CLI.invalid_incheck_selection(player, piece) if in_check
       end
     end
 
-    def incheck_piece_selection(player)
-      loop do
-        input = player.selection until input
-        return input if input == 'save' || board.in_check_selectable?(input, player.color)
-
-        CLI.invalid_incheck_selection(player, board.at(input))
-      end
+    def valid_selection?(player, input)
+      %w[save exit].include?(input) || board.selectable?(input, player.color)
     end
 
     def select_destination(player, moves)
@@ -49,6 +47,8 @@ module Chess
         input = player.destination until input
 
         return input if board.valid_move?(moves, input) || input == 'back'
+
+        CLI.invalid_destination(input)
       end
     end
   end

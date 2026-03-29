@@ -17,13 +17,13 @@ module Chess
     def invalid_incheck_selection(player, piece)
       return puts "=> Invalid selection, you can't select an empty tile!" if piece.nil?
 
-      return "#{piece} can't defend king" if player.color == piece.color
+      return puts "#{piece} can't defend king" if player.color == piece.color
 
       different_color_piece(piece)
     end
 
     def post_selection(moves)
-      puts "=> Pick a move from the following: (#{MoveConverter.convert_moves(moves)}) or type back to select another piece"
+      print "=> Pick a move from the following: (#{MoveConverter.convert_moves(moves)}) or type back to select another piece: "
     end
 
     def no_safe_moves(piece)
@@ -39,9 +39,34 @@ module Chess
       print '=> '
     end
 
+    def invalid_destination(input)
+      puts "=> #{MoveConverter.convert_move(input)} is not a possible move."
+    end
+
     def invalid_input(input)
       puts "=> #{input} is invalid please enter a valid input."
       puts '=> Examples of some valid inputs a1, d4, h8.'
+    end
+
+    def save_confirmation
+      system 'clear'
+      print '=> Do you want to save the game? Y\n: '
+    end
+
+    def exited
+      puts '=> Exited without saving!'
+    end
+
+    def saved
+      puts 'Game saved successfully.'
+    end
+
+    def load_confirmation
+      puts 'Do you want to load a saved game? Y/N'
+    end
+
+    def invalid_load
+      puts 'Invalid load number, please choose a correct number from above.'
     end
   end
 end
