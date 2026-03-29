@@ -1,15 +1,8 @@
+require_relative 'fen_constants'
 module Chess
   # Converts Fen Placement string to board and board to Fen Placement string
   module FenConverter
-    INITIAL_PIECE_PLACEMENT = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.freeze
-
-    PIECES_NOTATION = { 'n' => { name: Chess::Knight, color: 'black' }, 'r' => { name: Chess::Rook, color: 'black' },
-                        'b' => { name: Chess::Bishop, color: 'black' }, 'q' => { name: Chess::Queen, color: 'black' },
-                        'k' => { name: Chess::King, color: 'black' },   'p' => { name: Chess::Pawn, color: 'black' },
-                        'N' => { name: Chess::Knight, color: 'white' }, 'R' => { name: Chess::Rook, color: 'white' },
-                        'B' => { name: Chess::Bishop, color: 'white' }, 'Q' => { name: Chess::Queen, color: 'white' },
-                        'K' => { name: Chess::King, color: 'white' },   'P' => { name: Chess::Pawn, color: 'white' } }.freeze
-
+    include FenConstants
     def board_fen_array(string)
       fen_array = substitute_fen_digits(string).split('/')
       fen_array.map do |string|
