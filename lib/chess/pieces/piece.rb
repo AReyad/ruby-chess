@@ -22,8 +22,8 @@ module Chess
     def safe_moves(position, board)
       board_clone = board.clone
       current_position = position
-      king_position = board.find_king(color)
-      opponent_positions = board.opponent_positions(color)
+      king_position = board_clone.find_king(color)
+      opponent_positions = board_clone.opponent_positions(color)
       available_moves(position, board).reject do |move|
         board_clone.move_piece(current_position, move)
         current_position = move
