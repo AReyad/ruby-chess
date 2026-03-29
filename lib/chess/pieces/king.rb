@@ -19,6 +19,7 @@ module Chess
       default_position = board.default_king_position(color)
       return [] unless position == default_position
       return [] unless board.castlable?(color, board, default_position)
+      return [] if board.king_in_check?(color, position)
 
       return board.white_castling_moves(color, board, default_position) if white?
 
