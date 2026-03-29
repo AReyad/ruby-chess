@@ -15,7 +15,7 @@ module Chess
     end
 
     def display(board = game_board)
-      # system 'clear'
+      system 'clear'
       display_board(board)
       print COLUMNS_LABELS
     end
@@ -39,7 +39,7 @@ module Chess
     end
 
     def castling_rights?(side)
-      @fen.has_castling_rights?(side)
+      fen.has_castling_rights?(side)
     end
 
     def selectable?(position, color)
@@ -55,6 +55,12 @@ module Chess
 
     def clone(obj = self)
       Marshal.load(Marshal.dump(obj))
+    end
+
+    def fen_data
+      placement = fen.board_to_fen(game_board)
+      fen.update_placement(placement)
+      fen.cloned_data
     end
 
     private
