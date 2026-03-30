@@ -49,11 +49,11 @@ module Chess
       generate_board(data['placement'])
     end
 
-    private
-
     def update_placement(placement)
       data['placement'] = placement
     end
+
+    private
 
     def handle_data(data)
       return data if data.is_a?(Hash)
