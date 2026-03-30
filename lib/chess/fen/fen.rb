@@ -14,13 +14,13 @@ module Chess
       fen_parts = string.split(' ')
       data = {}
       INITIAL_FEN_HASH.each_key.with_index { |key, index| data[key] = fen_parts[index] }
-      data[:halfmove] = data[:halfmove].to_i
-      data[:fullmove] = data[:fullmove].to_i
+      data['halfmove'] = data['halfmove'].to_i
+      data['fullmove'] = data['fullmove'].to_i
       data
     end
 
     def castling_rights
-      data[:castling]
+      data['castling']
     end
 
     def update(position, destination, board)
@@ -32,9 +32,9 @@ module Chess
     end
 
     def enpassent
-      return if data[:enpassent] == '-'
+      return if data['enpassent'] == '-'
 
-      data[:enpassent]
+      data['enpassent']
     end
 
     def cloned_data
@@ -42,17 +42,17 @@ module Chess
     end
 
     def hundred_regular_moves?
-      data[:halfmove] == 100 && data[:fullmove] > 49
+      data['halfmove'] == 100 && data['fullmove'] > 49
     end
 
     def to_board
-      generate_board(data[:placement])
+      generate_board(data['placement'])
     end
 
     private
 
     def update_placement(placement)
-      data[:placement] = placement
+      data['placement'] = placement
     end
 
     def handle_data(data)
@@ -62,16 +62,16 @@ module Chess
     end
 
     def update_turn
-      return data[:turn] = 'b' if data[:turn] == 'w'
+      return data['turn'] = 'b' if data['turn'] == 'w'
 
-      data[:turn] = 'w'
+      data['turn'] = 'w'
     end
 
     def update_halfmove(position, destination, board)
       piece = board.at(position)
-      return data[:halfmove] += 1 if can_update_halfmove?(piece, destination)
+      return data['halfmove'] += 1 if can_update_halfmove?(piece, destination)
 
-      data[:halfmove] = 0
+      data['halfmove'] = 0
     end
 
     def can_update_halfmove?(piece, destination)
@@ -79,7 +79,7 @@ module Chess
     end
 
     def increase_fullmove
-      data[:fullmove] += 1 if data[:turn] == 'b'
+      data['fullmove'] += 1 if data['turn'] == 'b'
     end
 
     def update_castling_rights(position, board)
@@ -93,31 +93,31 @@ module Chess
     end
 
     def update_kingside_rights(piece)
-      return data[:castling].delete!('K') if piece.white?
+      return data['castling'].delete!('K') if piece.white?
 
-      data[:castling].delete!('k') if piece.black?
+      data['castling'].delete!('k') if piece.black?
     end
 
     def update_queenside_rights(piece)
-      return data[:castling].delete!('Q') if piece.white?
+      return data['castling'].delete!('Q') if piece.white?
 
-      data[:castling].delete!('q') if piece.black?
+      data['castling'].delete!('q') if piece.black?
     end
 
     def update_king_rights(piece)
-      return data[:castling].delete!('KQ') if piece.white?
+      return data['castling'].delete!('KQ') if piece.white?
 
-      data[:castling].delete!('kq') if piece.black?
+      data['castling'].delete!('kq') if piece.black?
     end
 
     def update_enpassent(position, destination, board)
-      data[:enpassent] = '-'
+      data['enpassent'] = '-'
 
       piece = board.at(position)
       return unless piece.pawn? && piece.enpassent?(position, destination)
 
       enpassent_position = board.enpassent_position(destination, piece.color)
-      data[:enpassent] = MoveConverter.convert_move(enpassent_position)
+      data['enpassent'] = MoveConverter.convert_move(enpassent_position)
     end
 
     attr_accessor :data

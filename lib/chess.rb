@@ -75,8 +75,26 @@ module Chess
 
     players = create_players.reverse if loaded['turn'] == 'b'
     players = create_players if loaded['turn'] == 'w'
-    Game.new(ChessBoard.new(loaded['placement'], loaded), players).play
+    p loaded
+    Game.new(ChessBoard.new(loaded), players).play
   end
 end
-
 Chess.run
+# fen = Chess::Fen.new
+# fen2 = Chess::Fen.new('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 22 33')
+# fen3 = Chess::Fen.new('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - e3 20 11')
+# fen4 = Chess::Fen.new('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - a4 03 15')
+# fen5 = Chess::Fen.new('rnbbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - c2 50 17')
+# # t = fen.create_fen_hash('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w d - 0 1 {w:[],b:[]}')
+# p fen.cloned_data
+# p ''
+# p fen2.cloned_data
+# p ''
+# p fen3.cloned_data
+# p ''
+# p fen4.cloned_data
+# p ''
+# p fen5.cloned_data
+# # p t
+# # str = fen.create_fen_string
+# # p fen.create_fen_hash(str)
