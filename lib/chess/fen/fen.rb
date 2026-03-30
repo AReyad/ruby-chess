@@ -3,7 +3,7 @@ module Chess
   class Fen
     include FenConverter
     def initialize(data = INITIAL_FEN_HASH)
-      @data = assign_data(data)
+      @data = handle_data(data)
     end
 
     def create_fen_string
@@ -55,7 +55,7 @@ module Chess
       data[:placement] = placement
     end
 
-    def assign_data(data)
+    def handle_data(data)
       return data if data.is_a?(Hash)
 
       create_fen_hash(data)
