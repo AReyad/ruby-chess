@@ -4,7 +4,6 @@ module Chess
     include FenConverter
     def initialize(data = INITIAL_FEN_HASH)
       @data = assign_data(data)
-      @threefold = { w: [], b: [] }
     end
 
     def create_fen_string
