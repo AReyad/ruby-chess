@@ -2,8 +2,9 @@ require_relative 'fen_converter'
 module Chess
   class Fen
     include FenConverter
-    def initialize(data = INITIAL_FEN)
-      @data = data
+    def initialize(data = INITIAL_FEN_HASH)
+      @data = assign_data(data)
+      @threefold = { w: [], b: [] }
     end
 
     def create_fen_string
@@ -12,14 +13,15 @@ module Chess
 
     def create_fen_hash(string)
       fen_parts = string.split(' ')
-      data.each_key.with_index { |key, index| data[key] = fen_parts[index] }
+      data = {}
+      INITIAL_FEN_HASH.each_key.with_index { |key, index| data[key] = fen_parts[index] }
       data[:halfmove] = data[:halfmove].to_i
       data[:fullmove] = data[:fullmove].to_i
       data
     end
 
-    def has_castling_rights?(side)
-      data[:castling].include?(side)
+    def castling_rights
+      data[:castling]
     end
 
     def update(position, destination, board)
@@ -44,15 +46,21 @@ module Chess
       data[:halfmove] == 100 && data[:fullmove] > 49
     end
 
-    def update_placement(placement)
-      data[:placement] = placement
-    end
-
     def to_board
       generate_board(data[:placement])
     end
 
     private
+
+    def update_placement(placement)
+      data[:placement] = placement
+    end
+
+    def assign_data(data)
+      return data if data.is_a?(Hash)
+
+      create_fen_hash(data)
+    end
 
     def update_turn
       return data[:turn] = 'b' if data[:turn] == 'w'

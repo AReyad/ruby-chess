@@ -1,14 +1,13 @@
 module Chess
   module FenConstants
-    INITIAL_FEN = { placement: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
-                    turn: 'w',
-                    castling: 'KQkq',
-                    enpassent: '-',
-                    halfmove: 0,
-                    fullmove: 1,
-                    threefold: { w: [], b: [] } }
-
-    INITIAL_PIECE_PLACEMENT = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.freeze
+    INITIAL_FEN_HASH = { placement: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
+                         turn: 'w',
+                         castling: 'KQkq',
+                         enpassent: '-',
+                         halfmove: 0,
+                         fullmove: 1,
+                         threefold: { w: [], b: [] } }
+    INITIAL_PIECE_PLACEMENT = INITIAL_FEN_HASH[:placement].freeze
 
     PIECES_NOTATION = { 'n' => { name: Chess::Knight, color: 'black' }, 'r' => { name: Chess::Rook, color: 'black' },
                         'b' => { name: Chess::Bishop, color: 'black' }, 'q' => { name: Chess::Queen, color: 'black' },

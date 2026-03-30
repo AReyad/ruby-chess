@@ -39,7 +39,7 @@ module Chess
     end
 
     def castling_rights?(side)
-      fen.has_castling_rights?(side)
+      fen.castling_rights.include?(side)
     end
 
     def selectable?(position, color)
