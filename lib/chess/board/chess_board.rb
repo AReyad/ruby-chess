@@ -9,7 +9,7 @@ module Chess
     include PieceHandler
     include MovesHandler
 
-    def initialize(fen_data = Fen::INITIAL_FEN)
+    def initialize(fen_data = Fen::INITIAL_FEN_HASH)
       @fen = Fen.new(fen_data)
       @game_board = fen.to_board
     end
