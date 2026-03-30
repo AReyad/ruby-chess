@@ -25,10 +25,15 @@ module Chess
       king_position = board_clone.find_king(color)
       opponent_positions = board_clone.opponent_positions(color)
       available_moves(position, board).reject do |move|
-        board_clone.move_piece(current_position, move)
+        handle_move(current_position, move, board)
         current_position = move
-        board_clone.king_in_check?(color, king_position, opponent_positions)
+        board.king_in_check?(color, king_position, opponent_positions)
       end
+    end
+
+    def handle_move(position, move, board)
+      board.capture_enpassent(position, move) if board.at(position)&.pawn? && board.enpassent_square?(move)
+      board.move_piece(position, move)
     end
 
     def piece_directions
