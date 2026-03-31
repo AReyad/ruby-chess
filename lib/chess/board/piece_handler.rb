@@ -5,7 +5,7 @@ module Chess
     end
 
     def king_in_check?(color, king_position = find_king(color), opponent_positions = opponent_positions(color))
-      return if at(king_position).available_moves(king_position, self).empty?
+      return if at(king_position)&.available_moves(king_position, self)&.empty?
 
       opponent_positions.any? do |position|
         at(position)&.available_moves(position, self)&.include?(king_position)
