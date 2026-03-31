@@ -63,6 +63,14 @@ module Chess
       fen.cloned_data
     end
 
+    def threefold?
+      fen.three_repeated_moves?
+    end
+
+    def fifty_moves?
+      fen.hundred_regular_moves?
+    end
+
     private
 
     def change_value(position, value)
