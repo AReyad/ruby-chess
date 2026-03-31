@@ -16,7 +16,7 @@ module Chess
     def initialize(color)
       @name = piece_name
       @color = color
-      @symbol = chess_symbol
+      @symbol = piece_symbol
     end
 
     def safe_moves(position, board)
@@ -25,15 +25,10 @@ module Chess
       king_position = board_clone.find_king(color)
       opponent_positions = board_clone.opponent_positions(color)
       available_moves(position, board).reject do |move|
-        handle_move(current_position, move, board_clone)
+        simulate_move(current_position, move, board_clone)
         current_position = move
         board_clone.king_in_check?(color, king_position, opponent_positions)
       end
-    end
-
-    def handle_move(position, move, board)
-      board.capture_enpassent(position, move) if board.at(position)&.pawn? && board.enpassent_square?(move)
-      board.move_piece(position, move)
     end
 
     def piece_directions
@@ -58,10 +53,6 @@ module Chess
 
     def moves_regularly?
       %w[knight king].include?(name)
-    end
-
-    def piece_color
-      Palette.color(color)
     end
 
     def white?
@@ -90,12 +81,21 @@ module Chess
 
     private
 
+    def simulate_move(position, move, board)
+      board.capture_enpassent(position, move) if board.at(position)&.pawn? && board.enpassent_square?(move)
+      board.move_piece(position, move)
+    end
+
     def piece_name
       name = self.class.to_s.downcase
       name.split(':')[2]
     end
 
-    def chess_symbol
+    def piece_color
+      Palette.color(color)
+    end
+
+    def piece_symbol
       CHESS_SYMBOLS[name]
     end
   end
