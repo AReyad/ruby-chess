@@ -18,7 +18,7 @@ module Chess
       return 'team protected' if king.available_moves(king_position, self).empty?
 
       opponent_positions = opponent_positions(color)
-      !king.safe_moves(king_position, self).empty? && team_positions(color).any? do |position|
+      can_move?(king_position, king) && team_positions(color).any? do |position|
         can_defend_king?(position, king_position, color, opponent_positions)
       end
     end
