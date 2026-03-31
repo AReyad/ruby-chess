@@ -56,13 +56,12 @@ module Chess
     end
 
     def three_repeated_moves?
-      return unless data['threefold'].any?.length == 3
+      black_moves = data['threefold']['b']
+      white_moves = data['threefold']['w']
+      return unless black_moves.length > 2 || white_moves.length > 2
+      return true if two_equal_unique_moves(black_moves.uniq)
 
-      black_unique_moves = data['threefold']['b'].uniq
-      return true if two_equal_unique_moves(black_unique_moves)
-
-      white_unique_moves = data['threefold']['w'].uniq
-      two_equal_unique_moves(white_unique_moves)
+      two_equal_unique_moves(white_moves.uniq)
     end
 
     private
