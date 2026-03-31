@@ -10,7 +10,7 @@ module Chess
     end
 
     def serialize(data = @board.fen_data)
-      JSON.pretty_generate({ "#{save_name}": data })
+      JSON.dump({ "#{save_name}": data })
     end
 
     def save
@@ -29,7 +29,7 @@ module Chess
       save = Chess.deserialize
       key = save_name
       save[key] = data
-      File.write(Chess.save_path, JSON.pretty_generate(save))
+      File.write(Chess.save_path, JSON.dump(save))
     end
 
     def valid_save_name?(name)
