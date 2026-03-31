@@ -29,12 +29,16 @@ module Chess
       loop do
         input = player.selection until input
 
-        return input if valid_selection?(player, input)
+        next invalid_piece_selection(player, input, in_check) unless valid_selection?(player, input)
 
-        piece = board.at(input)
-        CLI.invalid_selection(player, piece) unless in_check
-        CLI.invalid_incheck_selection(player, piece) if in_check
+        return input
       end
+    end
+
+    def invalid_piece_selection(player, input, in_check)
+      piece = board.at(input)
+      CLI.invalid_selection(player, piece) unless in_check
+      CLI.invalid_incheck_selection(player, piece) if in_check
     end
 
     def valid_selection?(player, input)
