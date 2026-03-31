@@ -3,10 +3,6 @@
 require 'json'
 module Chess
   module Save
-    def serializer
-      JSON
-    end
-
     def save_name
       print 'Enter a valid save name consisting only of letters without any special characters: '
       input = gets.chomp until valid_save_name?(input)
