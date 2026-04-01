@@ -21,6 +21,11 @@ module Chess
       change_value(piece_position, nil)
     end
 
+    def reset_move(piece_position, destination, destination_value)
+      change_value(piece_position, at(destination))
+      change_value(destination, destination_value)
+    end
+
     def capture_enpassent(piece_position, destination)
       return unless at(piece_position).pawn?
 
