@@ -9,7 +9,7 @@ module Chess
       input
     end
 
-    def serialize(data = @board.fen_data)
+    def serialize(data = @board.fen_string)
       JSON.dump({ "#{save_name}": data })
     end
 
@@ -17,7 +17,7 @@ module Chess
       system 'clear'
       File.new(Chess.save_path, 'a+') unless File.exist?(Chess.save_path)
       unless File.empty?(Chess.save_path)
-        append_save(@board.fen_data)
+        append_save(@board.fen_string)
         return CLI.saved
       end
 
