@@ -13,7 +13,7 @@ module Chess
       capture_enpassent(position, destination) if piece.pawn? && enpassent_square?(destination)
       fen.update(position, destination, self)
       move_piece(position, destination)
-      promote(destination, color) if at(destination).pawn? && promotable?(destination, color)
+      promote(destination, color)
     end
 
     def move_piece(piece_position, destination)
@@ -36,6 +36,8 @@ module Chess
     end
 
     def promote(position, color)
+      return unless at(position).pawn? && promotable?(position, color)
+
       display
       selected_promotion = select_promotion(promotions(color))
       change_value(position, selected_promotion)
