@@ -2,21 +2,6 @@ module Chess
   module FenDataHandler
     KING_SIDE_CASTLING = 'K'.freeze
     QUEEN_SIDE_CASTLING = 'Q'.freeze
-    def update_threefold(position, destination)
-      reset_threefold
-      return data['threefold']['w'] << [position, destination] if data['turn'] == 'w'
-
-      data['threefold']['b'] << [position, destination]
-    end
-
-    def reset_threefold
-      data['threefold']['w'] = [] if data['threefold']['w'].length == 3
-      data['threefold']['b'] = [] if data['threefold']['b'].length == 3
-    end
-
-    def two_equal_unique_moves?(moves)
-      moves.length == 2 && moves[0].sort == moves[1].sort
-    end
 
     def handle_data(data)
       return data if data.is_a?(Hash)

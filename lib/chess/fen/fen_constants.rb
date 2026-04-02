@@ -5,8 +5,7 @@ module Chess
                          'castling' => 'KQkq',
                          'enpassent' => '-',
                          'halfmove' => 0,
-                         'fullmove' => 1,
-                         'threefold' => { 'w' => [], 'b' => [] } }
+                         'fullmove' => 1 }
     INITIAL_PIECE_PLACEMENT = INITIAL_FEN_HASH['placement'].freeze
 
     PIECES_NOTATION = { 'n' => { name: Chess::Knight, color: 'black' }, 'r' => { name: Chess::Rook, color: 'black' },

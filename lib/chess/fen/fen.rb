@@ -3,8 +3,9 @@ require_relative 'fen_data_handler'
 module Chess
   class Fen
     include FenConverter
-    def initialize(data = INITIAL_FEN_HASH)
+    def initialize(data = INITIAL_FEN_HASH, threefold = [])
       @data = handle_data(data)
+      @threefold = threefold
     end
 
     def create_fen_string
@@ -29,8 +30,8 @@ module Chess
       update_halfmove(position, destination, board)
       increase_fullmove
       update_castling_rights(position, board)
-      update_threefold(position, destination)
       update_turn
+      threefold << create_fen_string
     end
 
     def enpassent
@@ -56,12 +57,7 @@ module Chess
     end
 
     def three_repeated_moves?
-      black_moves = data['threefold']['b']
-      white_moves = data['threefold']['w']
-
-      return true if two_equal_unique_moves?(black_moves.uniq) && black_moves.length > 2
-
-      two_equal_unique_moves?(white_moves.uniq) && white_moves.length > 2
+      threefold.tally.value?(3)
     end
 
     def turn
@@ -73,6 +69,6 @@ module Chess
     private
 
     include FenDataHandler
-    attr_accessor :data
+    attr_accessor :data, :threefold
   end
 end
