@@ -11,7 +11,7 @@ module Chess
     def initialize(board = ChessBoard.new, players = Chess.create_players)
       @board = board
       @players = players
-      @current_player = players[0]
+      @current_player = players[board.player_turn]
     end
 
     def run

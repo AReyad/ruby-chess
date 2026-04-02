@@ -15,7 +15,7 @@ module Chess
     end
 
     def display(board = game_board)
-      system 'clear'
+      # system 'clear'
       display_board(board)
       print COLUMNS_LABELS
     end
@@ -69,6 +69,10 @@ module Chess
 
     def fifty_moves?
       fen.hundred_regular_moves?
+    end
+
+    def player_turn
+      fen.turn
     end
 
     private

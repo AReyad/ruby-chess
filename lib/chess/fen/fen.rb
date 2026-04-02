@@ -64,6 +64,12 @@ module Chess
       two_equal_unique_moves(white_moves.uniq)
     end
 
+    def turn
+      return 1 if data['turn'] == 'b'
+
+      0
+    end
+
     private
 
     include FenDataHandler
