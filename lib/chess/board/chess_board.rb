@@ -57,10 +57,8 @@ module Chess
       Marshal.load(Marshal.dump(obj))
     end
 
-    def fen_data
-      placement = fen.board_to_fen(game_board)
-      fen.update_placement(placement)
-      fen.cloned_data
+    def fen_string
+      fen.create_fen_string
     end
 
     def threefold?
@@ -73,6 +71,10 @@ module Chess
 
     def player_turn
       fen.turn
+    end
+
+    def placement_string
+      fen.board_to_fen(game_board)
     end
 
     private

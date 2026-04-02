@@ -14,6 +14,7 @@ module Chess
       fen.update(position, destination, self)
       move_piece(position, destination)
       promote(destination, color)
+      fen.update_placement(placement_string)
     end
 
     def move_piece(piece_position, destination)
