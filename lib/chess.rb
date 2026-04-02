@@ -69,10 +69,20 @@ module Chess
     print '=> Type the number of the save you want to load: '
   end
 
+  def load_file_exists?(file_path)
+    File.exist?(file_path) && !File.empty?(file_path)
+  end
+
   def run
-    loaded = load_game if File.exist?(Chess.save_path)
+    begin
+      loaded = load_game if load_file_exists?(save_path)
+    rescue StandardError
+      return Game.new.play
+    end
     return Game.new.play unless loaded
 
     Game.new(ChessBoard.new(loaded)).play
   end
 end
+
+Chess.run
