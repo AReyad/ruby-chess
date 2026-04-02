@@ -5,13 +5,14 @@ module Chess
 
     def safe_moves(position, board)
       board_clone = board.clone
-      current_position = position
       opponent_positions = board_clone.opponent_positions(color)
       moves = (available_moves(position, board) + castling_moves(board, position)).reject(&:empty?)
       moves.reject do |move|
-        board_clone.move_piece(current_position, move)
-        current_position = move
-        board_clone.king_in_check?(color, current_position, opponent_positions)
+        destination_value = board_clone.at(move)
+        board_clone.move_piece(position, move)
+        check = board_clone.king_in_check?(color, move, opponent_positions)
+        board_clone.reset_move(position, move, destination_value)
+        check
       end
     end
 
