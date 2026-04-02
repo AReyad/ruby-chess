@@ -1,5 +1,7 @@
 module Chess
   module FenDataHandler
+    KING_SIDE_CASTLING = 'K'.freeze
+    QUEEN_SIDE_CASTLING = 'Q'.freeze
     def update_threefold(position, destination)
       reset_threefold
       return data['threefold']['w'] << [position, destination] if data['turn'] == 'w'
@@ -12,8 +14,8 @@ module Chess
       data['threefold']['b'] = [] if data['threefold']['b'].length == 3
     end
 
-    def two_equal_unique_moves(moves)
-      moves == 2 && moves[0].sort == moves[1].sort
+    def two_equal_unique_moves?(moves)
+      moves.length == 2 && moves[0].sort == moves[1].sort
     end
 
     def handle_data(data)
@@ -54,21 +56,22 @@ module Chess
     end
 
     def update_kingside_rights(piece)
-      return data['castling'].delete!('K') if piece.white?
+      return data['castling'].delete!(KING_SIDE_CASTLING) if piece.white?
 
-      data['castling'].delete!('k') if piece.black?
+      data['castling'].delete!(KING_SIDE_CASTLING.downcase) if piece.black?
     end
 
     def update_queenside_rights(piece)
-      return data['castling'].delete!('Q') if piece.white?
+      return data['castling'].delete!(QUEEN_SIDE_CASTLING) if piece.white?
 
-      data['castling'].delete!('q') if piece.black?
+      data['castling'].delete!(QUEEN_SIDE_CASTLING.downcase) if piece.black?
     end
 
     def update_king_rights(piece)
-      return data['castling'].delete!('KQ') if piece.white?
+      side = KING_SIDE_CASTLING + QUEEN_SIDE_CASTLING
+      return data['castling'].delete!(side) if piece.white?
 
-      data['castling'].delete!('kq') if piece.black?
+      data['castling'].delete!(side.downcase) if piece.black?
     end
 
     def update_enpassent(position, destination, board)
