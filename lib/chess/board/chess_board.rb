@@ -15,7 +15,7 @@ module Chess
     end
 
     def display(board = game_board)
-      # system 'clear'
+      system 'clear'
       display_board(board)
       print COLUMNS_LABELS
     end
