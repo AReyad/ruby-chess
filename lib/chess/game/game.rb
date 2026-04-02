@@ -20,7 +20,8 @@ module Chess
     end
 
     def play
-      loop do
+      until game_over?
+
         selected = selection
         return exit_game if selected == 'exit'
         return save if selected == 'save'
@@ -31,6 +32,7 @@ module Chess
 
         switch_players!
       end
+      puts end_message
     end
 
     def exit_game
@@ -44,6 +46,12 @@ module Chess
     def switch_players!
       players.rotate!
       @current_player = players[0]
+    end
+
+    def end_message
+      return 'Game ended with a draw' if draw?
+
+      "Congratulations, #{current_player.name} won!"
     end
 
     attr_reader :current_player, :players, :board
