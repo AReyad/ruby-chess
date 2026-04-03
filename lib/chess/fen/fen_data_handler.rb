@@ -17,13 +17,13 @@ module Chess
 
     def update_halfmove(position, destination, board)
       piece = board.at(position)
-      return data['halfmove'] += 1 if can_update_halfmove?(piece, destination)
+      return data['halfmove'] += 1 if can_update_halfmove?(piece, board.at(destination))
 
       data['halfmove'] = 0
     end
 
     def can_update_halfmove?(piece, destination)
-      !piece.pawn? && !destination.nil?
+      !piece.pawn? && destination.nil?
     end
 
     def increase_fullmove
