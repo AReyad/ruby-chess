@@ -62,7 +62,7 @@ module Chess
     end
 
     def threefold?
-      fen.three_repeated_moves?
+      fen.three_repeated_states?
     end
 
     def fifty_moves?
