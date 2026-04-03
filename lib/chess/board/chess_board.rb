@@ -69,7 +69,7 @@ module Chess
       fen.hundred_regular_moves?
     end
 
-    def player_turn
+    def starting_player
       fen.turn
     end
 
