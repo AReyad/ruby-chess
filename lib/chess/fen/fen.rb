@@ -31,17 +31,13 @@ module Chess
       increase_fullmove
       update_castling_rights(position, board)
       update_turn
-      threefold << create_fen_string
+      threefold << data.values.first(4).join(' ')
     end
 
     def enpassent
       return if data['enpassent'] == '-'
 
       data['enpassent']
-    end
-
-    def cloned_data
-      JSON.parse(JSON.dump(data))
     end
 
     def hundred_regular_moves?
@@ -56,8 +52,9 @@ module Chess
       data['placement'] = placement
     end
 
-    def three_repeated_moves?
-      threefold.tally.value?(3)
+    def three_repeated_states?
+      positions = threefold
+      positions.tally[positions.last] == 3
     end
 
     def turn
