@@ -3,7 +3,7 @@ module Chess
     BLACK_KING_POSITION = [0, 4].freeze
     WHITE_KING_POSITION = [7, 4].freeze
 
-    CASTLING_MOVES = { 'k' => [0, 1], 'q' => [0, 6], 'K' => [7, 1], 'Q' => [7, 6] }.freeze
+    CASTLING_MOVES = { 'k' => [0, 2], 'q' => [0, 6], 'K' => [7, 2], 'Q' => [7, 6] }.freeze
     def castlable?(color, board, position)
       castlable_queenside?(color, board, position) || castlable_kingside?(color, board, position)
     end
@@ -62,9 +62,9 @@ module Chess
       board.castling_rights?('q')
     end
 
-    def castling(color, position, destination)
+    def castling(position, destination)
       rook_position = rook_position(destination)
-      rook_destination = rook_destination(color, destination)
+      rook_destination = rook_destination(destination)
       move_piece(position, destination)
       move_piece(rook_position, rook_destination)
     end
@@ -72,22 +72,21 @@ module Chess
     def rook_position(destination)
       row = destination[0]
       col = destination[1]
-      return [row, col - 1] if col == 1
+      return [row, col - 2] if col == 2
 
       [row, col + 1]
     end
 
-    def rook_destination(color, position)
-      king_position = default_king_position(color)
-      row = king_position[0]
-      col = king_position[1]
-      return [row, col - 1] if position[1] == 1
+    def rook_destination(destination)
+      row = destination[0]
+      col = destination[1]
+      return [row, col + 1] if col == 2
 
-      [row, col + 1]
+      [row, col - 1]
     end
 
     def castling_move?(color, position, destination)
-      position == default_king_position(color) && destination[1] == 1 || destination[1] == 6
+      position == default_king_position(color) && destination[1] == 2 || destination[1] == 6
     end
   end
 end
