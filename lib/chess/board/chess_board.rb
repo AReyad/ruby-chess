@@ -61,12 +61,12 @@ module Chess
       fen.create_fen_string
     end
 
-    def threefold?
-      fen.three_repeated_states?
+    def claimable_draw?
+      threefold? || fifty_moves?
     end
 
-    def fifty_moves?
-      fen.hundred_regular_moves?
+    def asserted_draw?
+      fen.repeated_regular_moves?(125, 75) || fen.repeated_states?(5)
     end
 
     def starting_player
@@ -78,6 +78,14 @@ module Chess
     end
 
     private
+
+    def threefold?
+      fen.repeated_states?
+    end
+
+    def fifty_moves?
+      fen.repeated_regular_moves?
+    end
 
     def change_value(position, value)
       game_board[position[0]][position[1]] = value
