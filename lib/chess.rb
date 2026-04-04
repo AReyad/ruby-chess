@@ -84,5 +84,3 @@ module Chess
     Game.new(ChessBoard.new(loaded)).play
   end
 end
-
-Chess.run
