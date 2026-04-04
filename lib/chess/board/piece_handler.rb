@@ -1,7 +1,7 @@
 module Chess
   module PieceHandler
-    def can_move?(position, piece)
-      !piece.safe_moves(position, self).empty?
+    def can_move?(position)
+      !at(position).safe_moves(position, self).empty?
     end
 
     def king_in_check?(color, king_position = find_king(color), opponent_positions = opponent_positions(color))
@@ -18,7 +18,7 @@ module Chess
       return 'team protected' if king.available_moves(king_position, self).empty?
 
       opponent_positions = opponent_positions(color)
-      can_move?(king_position, king) && team_positions(color).any? do |position|
+      can_move?(king_position) && team_positions(color).any? do |position|
         can_defend_king?(position, king_position, color, opponent_positions)
       end
     end
