@@ -40,8 +40,8 @@ module Chess
       data['enpassent']
     end
 
-    def hundred_regular_moves?
-      data['halfmove'] == 100 && data['fullmove'] > 49
+    def repeated_regular_moves?(half_amount = 100, full_amount = 45)
+      data['halfmove'] == half_amount && data['fullmove'] > full_amount
     end
 
     def to_board
@@ -52,9 +52,9 @@ module Chess
       data['placement'] = placement
     end
 
-    def three_repeated_states?
+    def repeated_states?(amount = 3)
       positions = threefold
-      positions.tally[positions.last] == 3
+      positions.tally[positions.last] == amount
     end
 
     def turn
