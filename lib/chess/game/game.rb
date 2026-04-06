@@ -1,12 +1,12 @@
 require_relative 'game_state'
 require_relative 'selection'
-require_relative 'save'
+require_relative 'save_game'
 
 module Chess
   class Game
     include Selection
     include GameState
-    include Save
+    include SaveGame
 
     def initialize(board = ChessBoard.new, players = Chess.create_players)
       @board = board
