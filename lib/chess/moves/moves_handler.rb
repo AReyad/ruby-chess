@@ -37,10 +37,10 @@ module Chess
     end
 
     def promote(position, color)
-      return unless at(position).pawn? && promotable?(position, color)
+      return unless promotable?(position, color)
 
       display
-      selected_promotion = select_promotion(promotions(color))
+      selected_promotion = Chess.select_from_menu(promotions(color), CLI.promotion_option_msg)
       change_value(position, selected_promotion)
       puts "Pawn promoted to #{at(position).name.capitalize}."
     end
