@@ -3,6 +3,7 @@
 module Chess
   module SaveGame
     extend Serializer
+
     def save_name
       print 'Enter a valid save name consisting only of letters without any special characters: '
       input = gets.chomp until valid_save_name?(input)
@@ -30,7 +31,7 @@ module Chess
       save = SaveGame.deserialize
       key = save_name
       save[key] = data
-      File.write(Chess.save_path, serialize(key))
+      File.write(Chess.save_path, SaveGame.serializer.dump(save))
     end
 
     def valid_save_name?(name)
