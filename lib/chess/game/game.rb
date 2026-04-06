@@ -8,10 +8,21 @@ module Chess
     include GameState
     include SaveGame
 
-    def initialize(board = ChessBoard.new, players = Chess.create_players)
+    def initialize(board = ChessBoard.new, players = create_players)
       @board = board
       @players = players
       @current_player = players[board.starting_player]
+    end
+
+    def create_players
+      players = []
+      current_color = 'white'
+      2.times do
+        name = current_color.capitalize
+        players << Player.new(name, current_color)
+        current_color = 'black'
+      end
+      players
     end
 
     def run
