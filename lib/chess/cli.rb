@@ -65,8 +65,16 @@ module Chess
       puts 'Do you want to load a saved game? Y/N'
     end
 
-    def invalid_load
-      puts 'Invalid load number, please choose a correct number from above.'
+    def invalid_option(max, min = 1)
+      puts "Invalid option number, please choose a correct number between #{min} and #{max}."
+    end
+
+    def load_option_msg
+      '=> Type the number of the save you want to load: '
+    end
+
+    def promotion_option_msg
+      '=> Type the number of promotion you want to promote your pawn into: '
     end
 
     def invalid_promotion
