@@ -1,3 +1,5 @@
+require 'json'
+
 module Chess
   module Serializer
     def serializer
@@ -5,7 +7,7 @@ module Chess
     end
 
     def deserialize
-      serializer.parse(File.read(save_path))
+      serializer.parse(File.read(Chess.save_path))
     end
   end
 end
