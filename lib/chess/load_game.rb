@@ -5,8 +5,8 @@ module Chess
 
     def load_game
       CLI.load_confirmation
-      user_input = gets.chomp.downcase
-      return unless user_input == 'y'
+      input = gets.chomp.downcase
+      return unless %w[yes y ye yea yeah save].include?(input)
 
       saves = LoadGame.deserialize
       select_from_menu(saves, CLI.load_option_msg)
