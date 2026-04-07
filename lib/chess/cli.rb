@@ -80,5 +80,16 @@ module Chess
     def invalid_promotion
       puts 'Invalid promotion number, please choose a correct number from above.'
     end
+
+    def save_name_msg
+      puts 'Enter a valid save name consisting only of letters without any special characters.'
+      puts 'Example of valid save names: (save_name, save-name, savename)'
+      print '=> '
+    end
+
+    def invalid_save_name
+      puts 'Invalid save name, please input a valid save name!'
+      print '=> '
+    end
   end
 end

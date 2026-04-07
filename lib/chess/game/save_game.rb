@@ -5,9 +5,13 @@ module Chess
     extend Serializer
 
     def save_name
-      print 'Enter a valid save name consisting only of letters without any special characters: '
-      input = gets.chomp until valid_save_name?(input)
-      input
+      CLI.save_name_msg
+      loop do
+        input = gets.chomp
+        return input if valid_save_name?(input)
+
+        CLI.invalid_save_name
+      end
     end
 
     def serialize(name = save_name, data = @board.fen_string)
@@ -35,7 +39,7 @@ module Chess
     end
 
     def valid_save_name?(name)
-      !name.nil? && name.match?(/^[a-zA-Z0-9]*$/)
+      !name.nil? && name.match?(/^[a-zA-Z0-9_-]*$/) && name != ''
     end
   end
 end
