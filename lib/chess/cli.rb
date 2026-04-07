@@ -46,6 +46,7 @@ module Chess
     def invalid_input(input)
       puts "=> #{input} is invalid please enter a valid input."
       puts '=> Examples of some valid inputs a1, d4, h8.'
+      print '=> '
     end
 
     def save_confirmation
@@ -63,10 +64,12 @@ module Chess
 
     def load_confirmation
       puts 'Do you want to load a saved game? Y/N'
+      print '=> '
     end
 
     def invalid_option(max, min = 1)
       puts "Invalid option number, please choose a correct number between #{min} and #{max}."
+      print '=> '
     end
 
     def load_option_msg
