@@ -35,7 +35,7 @@ module Chess
       save = SaveGame.deserialize
       key = save_name
       save[key] = data
-      File.write(Chess.save_path, SaveGame.serializer.dump(save))
+      File.write(Chess.save_path, SaveGame.serializer.pretty_generate(save))
     end
 
     def valid_save_name?(name)
