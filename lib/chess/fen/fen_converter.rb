@@ -39,13 +39,13 @@ module Chess
 
     def board_to_fen(board)
       string = ''
-      board.each do |row|
+      board.each_with_index do |row, index|
         row.each do |ele|
           key = PIECES_NOTATION.key({ name: ele.class, color: ele&.color })
           key = '1' if ele.nil?
           string += key
         end
-        string += '/'
+        string += '/' unless index == 7
       end
       sum_fen_digits(string)
     end
