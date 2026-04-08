@@ -5,9 +5,9 @@ module Chess
     include FenConverter
     include FenDataHandler
 
-    def initialize(data = INITIAL_FEN_HASH, states = [data.values.first(4).join(' ')])
+    def initialize(data = INITIAL_FEN_HASH, states = [])
       @data = handle_data(data)
-      @states = states
+      @states = states << @data.values.first(4).join(' ')
     end
 
     def create_fen_string
