@@ -46,7 +46,7 @@ module Chess
       piece = at(position)
       return false if piece.nil?
 
-      can_move?(position) && piece_match_color?(piece, color)
+      piece_match_color?(piece, color) && can_move?(position)
     end
 
     def valid_move?(moves, move)
