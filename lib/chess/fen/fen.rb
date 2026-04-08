@@ -3,9 +3,11 @@ require_relative 'fen_data_handler'
 module Chess
   class Fen
     include FenConverter
-    def initialize(data = INITIAL_FEN_HASH, threefold = [])
+    include FenDataHandler
+
+    def initialize(data = INITIAL_FEN_HASH, states = [data.values.first(4).join(' ')])
       @data = handle_data(data)
-      @threefold = threefold
+      @states = states
     end
 
     def create_fen_string
@@ -31,7 +33,6 @@ module Chess
       increase_fullmove
       update_castling_rights(position, board)
       update_turn
-      threefold << data.values.first(4).join(' ')
     end
 
     def enpassent
@@ -53,8 +54,13 @@ module Chess
     end
 
     def repeated_states?(amount = 3)
-      positions = threefold
-      positions.tally[positions.last] == amount
+      current_states = states
+      current_states.tally[current_states.last] == amount
+    end
+
+    def update_states(placement)
+      update_placement(placement)
+      states << data.values.first(4).join(' ')
     end
 
     def turn
@@ -65,7 +71,6 @@ module Chess
 
     private
 
-    include FenDataHandler
-    attr_accessor :data, :threefold
+    attr_accessor :data, :states
   end
 end
