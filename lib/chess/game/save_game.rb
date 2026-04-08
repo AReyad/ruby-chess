@@ -2,7 +2,7 @@
 
 module Chess
   module SaveGame
-    extend Serializer
+    include Serializer
 
     def save_name
       CLI.save_name_msg
@@ -15,7 +15,7 @@ module Chess
     end
 
     def serialize(name = save_name, data = @board.fen_string)
-      SaveGame.serializer.dump({ "#{name}": data })
+      serializer.dump({ "#{name}": data })
     end
 
     def save
@@ -32,10 +32,10 @@ module Chess
     end
 
     def append_save(data)
-      save = SaveGame.deserialize
+      save = deserialize
       key = save_name
       save[key] = data
-      File.write(Chess.save_path, SaveGame.serializer.pretty_generate(save))
+      File.write(Chess.save_path, serializer.pretty_generate(save))
     end
 
     def valid_save_name?(name)
