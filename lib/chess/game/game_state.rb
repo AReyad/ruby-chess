@@ -13,11 +13,15 @@ module Chess
     end
 
     def checkmate?(color, board)
-      !board.king_can_escape?(color) && board.king_in_check?(color)
+      return false unless board.king_in_check?(color)
+
+      !board.team_can_move?(color)
     end
 
     def stalemate?(color, board)
-      !board.king_can_escape?(color) && !board.king_in_check?(color)
+      return false if board.king_in_check?(color)
+
+      !board.team_can_move?(color)
     end
 
     def draw_claimed?

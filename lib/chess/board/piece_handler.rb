@@ -12,25 +12,8 @@ module Chess
       end
     end
 
-    def king_can_escape?(color)
-      king_position = find_king(color)
-      king = at(find_king(color))
-      return 'team protected' if king.available_moves(king_position, self).empty?
-
-      opponent_positions = opponent_positions(color)
-      can_move?(king_position) && team_positions(color).any? do |position|
-        can_defend_king?(position, king_position, color, opponent_positions)
-      end
-    end
-
-    def can_defend_king?(position, king_position, color, opponent_positions)
-      board = Marshal.load(Marshal.dump(self))
-      current_position = position
-      board.at(position).available_moves(position, board).any? do |move|
-        board.move_piece(current_position, move)
-        current_position = move
-        !board.king_in_check?(color, king_position, opponent_positions)
-      end
+    def team_can_move?(color)
+      team_positions(color).any? { |position| can_move?(position) }
     end
 
     def find_piece_position(color, name)
