@@ -21,10 +21,12 @@ require_relative './chess/menu_selection'
 require_relative './chess/load_game'
 require_relative './chess/game/game'
 require_relative './chess/game/game_state'
+require_relative './chess/default_position'
 
 module Chess
   extend MenuSelection
   extend LoadGame
+  extend DefaultPosition
 
   module_function
 

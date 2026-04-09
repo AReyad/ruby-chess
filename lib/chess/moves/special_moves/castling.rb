@@ -1,8 +1,5 @@
 module Chess
   module Castling
-    BLACK_KING_POSITION = [0, 4].freeze
-    WHITE_KING_POSITION = [7, 4].freeze
-
     CASTLING_MOVES = { 'k' => [0, 6], 'q' => [0, 2], 'K' => [7, 6], 'Q' => [7, 2] }.freeze
     def castlable?(color, board, position)
       castlable_queenside?(color, board, position) || castlable_kingside?(color, board, position)
@@ -48,9 +45,7 @@ module Chess
     end
 
     def default_king_position(color)
-      return WHITE_KING_POSITION if color == 'white'
-
-      BLACK_KING_POSITION
+      Chess.default_piece_position(color, :king)
     end
 
     def king_rights?(color, board)

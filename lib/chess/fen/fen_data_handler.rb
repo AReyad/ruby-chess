@@ -33,30 +33,30 @@ module Chess
     def update_castling_rights(position, board)
       piece = board.at(position)
       col = position[1]
-      return update_king_rights(piece) if piece.king?
+      return update_king_rights(piece.color) if piece.king?
 
-      return update_queenside_rights(piece) if col.zero? && piece.name == 'rook'
+      return update_queenside_rights(piece.color) if col.zero? && piece.name == 'rook'
 
-      update_kingside_rights(piece) if col == 7 && piece.name == 'rook'
+      update_kingside_rights(piece.color) if col == 7 && piece.name == 'rook'
     end
 
-    def update_kingside_rights(piece)
-      return data['castling'].delete!(KING_SIDE_CASTLING) if piece.white?
+    def update_kingside_rights(color)
+      return data['castling'].delete!(KING_SIDE_CASTLING) if color == 'white'
 
-      data['castling'].delete!(KING_SIDE_CASTLING.downcase) if piece.black?
+      data['castling'].delete!(KING_SIDE_CASTLING.downcase) if color == 'black'
     end
 
-    def update_queenside_rights(piece)
-      return data['castling'].delete!(QUEEN_SIDE_CASTLING) if piece.white?
+    def update_queenside_rights(color)
+      return data['castling'].delete!(QUEEN_SIDE_CASTLING) if color == 'white'
 
-      data['castling'].delete!(QUEEN_SIDE_CASTLING.downcase) if piece.black?
+      data['castling'].delete!(QUEEN_SIDE_CASTLING.downcase) if color == 'black'
     end
 
-    def update_king_rights(piece)
+    def update_king_rights(color)
       side = KING_SIDE_CASTLING + QUEEN_SIDE_CASTLING
-      return data['castling'].delete!(side) if piece.white?
+      return data['castling'].delete!(side) if color == 'white'
 
-      data['castling'].delete!(side.downcase) if piece.black?
+      data['castling'].delete!(side.downcase) if color == 'black'
     end
 
     def update_enpassent(position, destination, board)
@@ -67,6 +67,34 @@ module Chess
 
       enpassent_position = board.enpassent_position(destination, piece.color)
       data['enpassent'] = MoveConverter.convert_move(enpassent_position)
+    end
+
+    def update_imported_castling(board)
+      update_imported_king_castling(board)
+      update_imported_queenside_castling(board)
+      update_imported_kingside_castling(board)
+      data['castling'] = '-' if data['castling'] == ''
+    end
+
+    def update_imported_king_castling(board)
+      white_king_position = board.at(Chess.default_piece_position('white', :king))
+      black_king_position = board.at(Chess.default_piece_position('black', :king))
+      update_king_rights('white') if white_king_position.nil? || !white_king_position.king?
+      update_king_rights('black') if black_king_position.nil? || !black_king_position.king?
+    end
+
+    def update_imported_queenside_castling(board)
+      white_queen_rook_position = board.at(Chess.default_piece_position('white', :queen_rook))
+      black_queen_rook_position = board.at(Chess.default_piece_position('black', :queen_rook))
+      update_queenside_rights('white') if white_queen_rook_position.nil? || !white_queen_rook_position.name == 'rook'
+      update_queenside_rights('black') if black_queen_rook_position.nil? || !black_queen_rook_position.name == 'rook'
+    end
+
+    def update_imported_kingside_castling(board)
+      white_king_rook_position = board.at(Chess.default_piece_position('white', :king_rook))
+      black_king_rook_position = board.at(Chess.default_piece_position('black', :king_rook))
+      update_kingside_rights('white') if white_king_rook_position.nil? || !white_king_rook_position.name == 'rook'
+      update_kingside_rights('black') if black_king_rook_position.nil? || !black_king_rook_position.name == 'rook'
     end
   end
 end

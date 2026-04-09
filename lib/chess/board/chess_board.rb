@@ -12,6 +12,7 @@ module Chess
     def initialize(fen_data = Fen::INITIAL_FEN_HASH)
       @fen = Fen.new(fen_data)
       @game_board = fen.to_board
+      fen.update_imported_castling(self)
     end
 
     def display(board = game_board)
