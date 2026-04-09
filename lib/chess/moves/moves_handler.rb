@@ -8,9 +8,9 @@ module Chess
       piece = at(position)
       color = piece.color
 
-      capture_enpassent(position, destination) if piece.pawn? && enpassent_square?(destination)
-      return castling(position, destination) if piece.king? && castling_move?(color, position, destination)
+      return handle_castling(position, destination) if piece.king? && castling_move?(color, position, destination)
 
+      capture_enpassent(position, destination) if piece.pawn? && enpassent_square?(destination)
       fen.update(position, destination, self)
       move_piece(position, destination)
       promote(destination, color)
@@ -34,6 +34,12 @@ module Chess
       return unless enpassent_square?(destination)
 
       change_value(enpassent_piece_position, nil)
+    end
+
+    def handle_castling(position, destination)
+      fen.update(position, destination, self)
+      castling(position, destination)
+      fen.update_states(placement_string)
     end
 
     def promote(position, color)
