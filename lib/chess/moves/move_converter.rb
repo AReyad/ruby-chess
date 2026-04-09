@@ -13,7 +13,7 @@ module Chess
     def convert_moves(moves)
       moves.map do |move|
         convert_move(move)
-      end.join(', ')
+      end.sort.join(', ')
     end
 
     def convert_algebraic_move(string)
