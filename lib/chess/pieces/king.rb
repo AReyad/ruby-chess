@@ -4,14 +4,13 @@ module Chess
                   [:south], [:south_east], [:east]].freeze
 
     def safe_moves(position, board)
-      board_clone = board.clone
-      opponent_positions = board_clone.opponent_positions(color)
+      opponent_positions = board.opponent_positions(color)
       moves = (available_moves(position, board) + castling_moves(board, position)).reject(&:empty?)
       moves.reject do |move|
-        destination_value = board_clone.at(move)
-        board_clone.move_piece(position, move)
-        check = board_clone.king_in_check?(color, move, opponent_positions)
-        board_clone.reset_move(position, move, destination_value)
+        destination_value = board.at(move)
+        board.move_piece(position, move)
+        check = board.king_in_check?(color, move, opponent_positions)
+        board.reset_move(position, move, destination_value)
         check
       end
     end
