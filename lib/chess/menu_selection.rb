@@ -3,7 +3,7 @@ module Chess
     def select_from_menu(options, option_msg)
       keys = options.keys
       keys_length = keys.length
-      return keys[0] if keys_length == 1
+      return options[keys[0]] if keys_length == 1
 
       display_options(keys, option_msg)
       loop do
