@@ -84,7 +84,13 @@ module Chess
     end
 
     def castling_move?(color, position, destination)
-      position == default_king_position(color) && destination[1] == 2 || destination[1] == 6
+      return unless at(position).king?
+
+      position == default_king_position(color) && castling_row?(destination)
+    end
+
+    def castling_row?(position)
+      [2, 6].include?(position[1])
     end
   end
 end
