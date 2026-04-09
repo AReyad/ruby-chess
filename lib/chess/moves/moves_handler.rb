@@ -46,7 +46,6 @@ module Chess
     end
 
     def handle_castling(position, destination)
-      p 'test'
       fen.update(position, destination, self)
       castling(position, destination)
       fen.update_states(placement_string)
