@@ -17,11 +17,11 @@ module Chess
       queen_side = 'Q'
       king_side = king_side.downcase if color == 'black'
       queen_side = queen_side.downcase if color == 'black'
-      return CASTLING_MOVES[king_side], CASTLING_MOVES[queen_side] if both_sides_castlable?(color, board, position)
+      return [CASTLING_MOVES[king_side], CASTLING_MOVES[queen_side]] if both_sides_castlable?(color, board, position)
 
-      return CASTLING_MOVES[king_side] if castlable_kingside?(color, board, position)
+      return [CASTLING_MOVES[king_side]] if castlable_kingside?(color, board, position)
 
-      CASTLING_MOVES[queen_side] if castlable_queenside?(color, board, position)
+      [CASTLING_MOVES[queen_side]] if castlable_queenside?(color, board, position)
     end
 
     def castlable_queenside?(color, board, position)
