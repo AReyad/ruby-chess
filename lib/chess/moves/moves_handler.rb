@@ -25,6 +25,15 @@ module Chess
     def reset_move(piece_position, destination, destination_value)
       change_value(piece_position, at(destination))
       change_value(destination, destination_value)
+      reset_enpassent_move(at(piece_position), destination)
+    end
+
+    def reset_enpassent_move(piece, destination)
+      return unless enpassent_square?(destination) && piece.pawn?
+
+      color = opponent_color(piece.color)
+      position = enpassent_position(destination, piece.color)
+      change_value(position, Pawn.new(color))
     end
 
     def capture_enpassent(piece_position, destination)
@@ -37,6 +46,7 @@ module Chess
     end
 
     def handle_castling(position, destination)
+      p 'test'
       fen.update(position, destination, self)
       castling(position, destination)
       fen.update_states(placement_string)
