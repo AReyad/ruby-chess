@@ -22,9 +22,7 @@ module Chess
       return [] unless board.castlable?(color, board, default_position)
       return [] if board.king_in_check?(color, position)
 
-      return board.white_castling_moves(color, board, default_position) if white?
-
-      board.black_castling_moves(color, board, default_position)
+      board.castling_moves(color, board, default_position)
     end
   end
 end

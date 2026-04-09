@@ -3,25 +3,25 @@ module Chess
     BLACK_KING_POSITION = [0, 4].freeze
     WHITE_KING_POSITION = [7, 4].freeze
 
-    CASTLING_MOVES = { 'k' => [0, 2], 'q' => [0, 6], 'K' => [7, 2], 'Q' => [7, 6] }.freeze
+    CASTLING_MOVES = { 'k' => [0, 6], 'q' => [0, 2], 'K' => [7, 6], 'Q' => [7, 2] }.freeze
     def castlable?(color, board, position)
       castlable_queenside?(color, board, position) || castlable_kingside?(color, board, position)
     end
 
-    def white_castling_moves(color, board, position)
-      return [CASTLING_MOVES['K'], CASTLING_MOVES['Q']] if castlable?(color, board, position)
-
-      return CASTLING_MOVES['K'] if castlable_kingside?(color, board, position)
-
-      CASTLING_MOVES['Q'] if castlable_queenside?(color, board, position)
+    def both_sides_castlable?(color, board, position)
+      castlable_queenside?(color, board, position) && castlable_kingside?(color, board, position)
     end
 
-    def black_castling_moves(color, board, position)
-      return CASTLING_MOVES['k'], CASTLING_MOVES['q'] if castlable?(color, board, position)
+    def castling_moves(color, board, position)
+      king_side = 'K'
+      queen_side = 'Q'
+      king_side = king_side.downcase if color == 'black'
+      queen_side = queen_side.downcase if color == 'black'
+      return CASTLING_MOVES[king_side], CASTLING_MOVES[queen_side] if both_sides_castlable?(color, board, position)
 
-      return CASTLING_MOVES['k'] if castlable_kingside?(color, board, position)
+      return CASTLING_MOVES[king_side] if castlable_kingside?(color, board, position)
 
-      CASTLING_MOVES['q'] if castlable_queenside?(color, board, position)
+      CASTLING_MOVES[queen_side] if castlable_queenside?(color, board, position)
     end
 
     def castlable_queenside?(color, board, position)
