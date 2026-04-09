@@ -1,6 +1,6 @@
 module Chess
   module EnPassent
-    def  enpassent_position(position, color)
+    def enpassent_position(position, color)
       return white_enpassent_position(position) if color == 'white'
 
       black_enpassent_position(position)
