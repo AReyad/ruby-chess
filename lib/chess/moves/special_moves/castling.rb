@@ -33,15 +33,18 @@ module Chess
     end
 
     def king_rook_reachable?(board, position)
-      row = position[0]
-      col = position[1]
-      !board.occupied_square?([row, col - 1]) && !board.occupied_square?([row, col - 2])
+      reachable_square?(board, position, 1) && reachable_square?(board, position, 2)
     end
 
     def queen_rook_reachable?(board, position)
+      reachable_square?(board, position,
+                        -1) && reachable_square?(board, position, -2) && reachable_square?(board, position, -3)
+    end
+
+    def reachable_square?(board, position, incrementor)
       row = position[0]
       col = position[1]
-      !board.occupied_square?([row, col + 1]) && !board.occupied_square?([row, col + 2])
+      !board.occupied_square?([row, col + incrementor])
     end
 
     def default_king_position(color)
