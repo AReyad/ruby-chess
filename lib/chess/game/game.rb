@@ -10,24 +10,9 @@ module Chess
 
     def initialize(board = ChessBoard.new, players = create_players)
       @board = board
+      players.rotate! if board.starting_player == 1
       @players = players
-      @current_player = players[board.starting_player]
-    end
-
-    def create_players
-      players = []
-      current_color = 'white'
-      2.times do
-        name = current_color.capitalize
-        players << Player.new(name, current_color)
-        current_color = 'black'
-      end
-      players
-    end
-
-    def run
-      game_load
-      play
+      @current_player = players[0]
     end
 
     def play
@@ -54,17 +39,30 @@ module Chess
       CLI.exited
     end
 
+    def end_message
+      board.display
+      return 'Game ended with a draw' if draw?
+
+      "Congratulations, #{players[1].name} won!"
+    end
+
+    private
+
+    def create_players
+      players = []
+      current_color = 'white'
+      2.times do
+        name = current_color.capitalize
+        players << Player.new(name, current_color)
+        current_color = 'black'
+      end
+      players
+    end
+
     def switch_players!
       players.rotate!
       @current_player = players[0]
     end
-
-    def end_message
-      return 'Game ended with a draw' if draw?
-
-      "Congratulations, #{current_player.name} won!"
-    end
-
     attr_reader :current_player, :players, :board
   end
 end
