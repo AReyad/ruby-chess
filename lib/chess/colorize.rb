@@ -16,7 +16,7 @@ module Chess
 
     def colorize_rights(rights, rights_data)
       rights_string = "#{rights}: #{rights_data}"
-      return foreground(Palette.color('reddish_brown'), rights_string) if rights_data.nil?
+      return foreground(Palette.color('reddish_brown'), rights_string) if rights_data.nil? || rights_data == '-'
 
       foreground(Palette.color('green'), rights_string)
     end
