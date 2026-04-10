@@ -10,7 +10,7 @@ module Chess
 
     def initialize(board = ChessBoard.new, players = create_players)
       @board = board
-      players.rotate! if board.starting_player == 1
+      players.rotate! if board.starting_player == 'black'
       @players = players
       @current_player = players[0]
     end

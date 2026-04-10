@@ -66,9 +66,9 @@ module Chess
     end
 
     def turn
-      return 1 if data['turn'] == 'b'
+      return 'black' if data['turn'] == 'b'
 
-      0
+      'white'
     end
 
     private
