@@ -19,6 +19,7 @@ module Chess
       system 'clear'
       display_board(board)
       print COLUMNS_LABELS
+      display_moves_right
     end
 
     def at(position)

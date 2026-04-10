@@ -24,6 +24,8 @@ module Chess
     end
 
     def castling_rights
+      return if data['castling'] == '-'
+
       data['castling']
     end
 
