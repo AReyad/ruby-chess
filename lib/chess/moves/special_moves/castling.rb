@@ -84,13 +84,19 @@ module Chess
     end
 
     def castling_move?(color, position, destination)
-      return unless at(position).king?
+      return unless at(position).king? && castling_row?(color, destination)
 
-      position == default_king_position(color) && castling_row?(destination)
+      position == default_king_position(color) && castling_col?(destination)
     end
 
-    def castling_row?(position)
+    def castling_col?(position)
       [2, 6].include?(position[1])
+    end
+
+    def castling_row?(color, position)
+      return position[0].zero? if color == 'black'
+
+      position[0] == 7
     end
   end
 end
