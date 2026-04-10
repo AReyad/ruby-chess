@@ -32,32 +32,26 @@ module Chess
 
     def update_castling_rights(position, board)
       piece = board.at(position)
-      col = position[1]
       return update_king_rights(piece.color) if piece.king?
+      return unless piece.name == 'rook'
 
-      return update_queenside_rights(piece.color) if col.zero? && piece.name == 'rook'
-
-      update_kingside_rights(piece.color) if col == 7 && piece.name == 'rook'
-      reset_castling_rights
+      update_queenside_rights(piece.color, position)
+      update_kingside_rights(piece.color, position)
     end
 
-    def update_kingside_rights(color)
-      return data['castling'].delete!(KING_SIDE_CASTLING) if color == 'white'
-
-      data['castling'].delete!(KING_SIDE_CASTLING.downcase) if color == 'black'
+    def update_kingside_rights(color, pos)
+      default_pos = Chess.default_piece_position(color, :king_rook)
+      delete_castling_right(KING_SIDE_CASTLING, color) if pos == default_pos
     end
 
-    def update_queenside_rights(color)
-      return data['castling'].delete!(QUEEN_SIDE_CASTLING) if color == 'white'
-
-      data['castling'].delete!(QUEEN_SIDE_CASTLING.downcase) if color == 'black'
+    def update_queenside_rights(color, pos)
+      default_pos = Chess.default_piece_position(color, :queen_rook)
+      delete_castling_right(QUEEN_SIDE_CASTLING, color) if pos == default_pos
     end
 
     def update_king_rights(color)
       side = KING_SIDE_CASTLING + QUEEN_SIDE_CASTLING
-      return data['castling'].delete!(side) if color == 'white'
-
-      data['castling'].delete!(side.downcase) if color == 'black'
+      delete_castling_right(side, color)
     end
 
     def reset_castling_rights
@@ -75,31 +69,25 @@ module Chess
     end
 
     def update_imported_castling(board)
-      update_imported_king_castling(board)
-      update_imported_queenside_castling(board)
-      update_imported_kingside_castling(board)
+      update_imported_castling_side(board, :queen_rook, QUEEN_SIDE_CASTLING)
+      update_imported_castling_side(board, :king_rook, KING_SIDE_CASTLING)
+      update_imported_castling_side(board, :king, KING_SIDE_CASTLING + QUEEN_SIDE_CASTLING)
       reset_castling_rights
     end
 
-    def update_imported_king_castling(board)
-      white_king_position = board.at(Chess.default_piece_position('white', :king))
-      black_king_position = board.at(Chess.default_piece_position('black', :king))
-      update_king_rights('white') if white_king_position.nil? || !white_king_position.king?
-      update_king_rights('black') if black_king_position.nil? || !black_king_position.king?
+    def update_imported_castling_side(board, side, side_letter)
+      white_position = board.at(Chess.default_piece_position('white', side))
+      black_position = board.at(Chess.default_piece_position('black', side))
+      piece_name = 'rook'
+      piece_name = 'king' if side == :king
+      delete_castling_right(side_letter, 'white') if white_position.nil? || white_position.name != piece_name
+      delete_castling_right(side_letter, 'black') if black_position.nil? || black_position.name != piece_name
     end
 
-    def update_imported_queenside_castling(board)
-      white_queen_rook_position = board.at(Chess.default_piece_position('white', :queen_rook))
-      black_queen_rook_position = board.at(Chess.default_piece_position('black', :queen_rook))
-      update_queenside_rights('white') if white_queen_rook_position.nil? || !white_queen_rook_position.name == 'rook'
-      update_queenside_rights('black') if black_queen_rook_position.nil? || !black_queen_rook_position.name == 'rook'
-    end
-
-    def update_imported_kingside_castling(board)
-      white_king_rook_position = board.at(Chess.default_piece_position('white', :king_rook))
-      black_king_rook_position = board.at(Chess.default_piece_position('black', :king_rook))
-      update_kingside_rights('white') if white_king_rook_position.nil? || !white_king_rook_position.name == 'rook'
-      update_kingside_rights('black') if black_king_rook_position.nil? || !black_king_rook_position.name == 'rook'
+    def delete_castling_right(side_letter, color)
+      data['castling'].delete!(side_letter) if color == 'white'
+      data['castling'].delete!(side_letter.downcase) if color == 'black'
+      reset_castling_rights
     end
   end
 end
