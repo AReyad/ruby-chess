@@ -38,6 +38,7 @@ module Chess
       return update_queenside_rights(piece.color) if col.zero? && piece.name == 'rook'
 
       update_kingside_rights(piece.color) if col == 7 && piece.name == 'rook'
+      reset_castling_rights
     end
 
     def update_kingside_rights(color)
@@ -59,6 +60,10 @@ module Chess
       data['castling'].delete!(side.downcase) if color == 'black'
     end
 
+    def reset_castling_rights
+      data['castling'] = '-' if data['castling'] == ''
+    end
+
     def update_enpassent(position, destination, board)
       data['enpassent'] = '-'
 
@@ -73,7 +78,7 @@ module Chess
       update_imported_king_castling(board)
       update_imported_queenside_castling(board)
       update_imported_kingside_castling(board)
-      data['castling'] = '-' if data['castling'] == ''
+      reset_castling_rights
     end
 
     def update_imported_king_castling(board)
