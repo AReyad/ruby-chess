@@ -13,20 +13,22 @@ module Chess
       "#{BOARD_SIZE - index} "
     end
 
-    def display_board(board)
+    def display_board(board, position)
       board_colors = [LIGHT_SQUARE, DARK_SQUARE]
-      board.each.with_index do |row, index|
-        print row_labels(index)
-        row.each do |square|
-          display_square(board_colors[0], square, board_colors)
+      board.each_with_index do |row, row_index|
+        print row_labels(row_index)
+        row.each_with_index do |square, square_index|
+          next highlight_square(square, board_colors) if position.include?([row_index, square_index])
+
+          display_square(board_colors, square)
         end
         rotate_colors(board_colors)
       end
     end
 
-    def display_square(color, value, colors)
+    def display_square(colors, value)
       # changes the background of each board square, and replaces nil with EMPTY_SQUARE and prints it
-      print background(color, value || EMPTY_SQUARE)
+      print background(colors[0], value || EMPTY_SQUARE)
       colors.rotate!
     end
 
@@ -35,20 +37,11 @@ module Chess
       puts ''
     end
 
-    def highlight_position(board, pos)
-      row = pos[0]
-      col = pos[1]
-      square = board[row][col]
+    def highlight_square(square, colors)
       color = Palette.color('green')
-      return board[row][col] = highlight(color, GREEN_CIRCLE, square.symbol_for_highlight) unless square.nil?
-
-      board[row][col] = foreground(color, GREEN_CIRCLE)
-    end
-
-    def highlight_display(positions)
-      board_clone = clone(game_board)
-      positions.each { |position| highlight_position(board_clone, position) }
-      display(board_clone)
+      print background(colors[0], highlight(color, GREEN_CIRCLE, square.symbol_for_highlight)) unless square.nil?
+      print background(colors[0], foreground(color, GREEN_CIRCLE)) if square.nil?
+      colors.rotate!
     end
 
     def display_moves_right
