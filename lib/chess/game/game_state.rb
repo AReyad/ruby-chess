@@ -27,6 +27,7 @@ module Chess
     def draw_claimed?
       return unless board.claimable_draw?
 
+      board.display
       puts '=> Game has reached a drawable condition.'
       puts '=> Do you want to end the game with a draw? Y\N?'
       print '=> '
