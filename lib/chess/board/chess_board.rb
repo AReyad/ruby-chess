@@ -68,7 +68,7 @@ module Chess
     end
 
     def asserted_draw?
-      fen.repeated_regular_moves?(125, 75) || fen.repeated_states?(5)
+      fen.repeated_regular_moves?(150, 75) || fen.repeated_states?(5)
     end
 
     def starting_player

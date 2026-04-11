@@ -20,5 +20,12 @@ module Chess
 
       foreground(Palette.color('green'), rights_string)
     end
+
+    def colorize_count(count_tag, count, values)
+      count_string = "#{count_tag}: #{count}"
+      return foreground(Palette.color('green'), count_string) if values.include? count
+
+      foreground(Palette.color('reddish_brown'), count_string)
+    end
   end
 end

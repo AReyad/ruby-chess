@@ -27,6 +27,10 @@ module Chess
       data['castling']
     end
 
+    def halfmove
+      data['halfmove']
+    end
+
     def update(position, destination, board)
       update_enpassent(position, destination, board)
       update_halfmove(position, destination, board)
@@ -41,8 +45,8 @@ module Chess
       data['enpassent']
     end
 
-    def repeated_regular_moves?(half_amount = 100, full_amount = 45)
-      data['halfmove'] == half_amount && data['fullmove'] > full_amount
+    def repeated_regular_moves?(half_amount = 100, full_amount = 50)
+      data['halfmove'] == half_amount && data['fullmove'] >= full_amount
     end
 
     def to_board

@@ -7,6 +7,7 @@ module Chess
     LIGHT_SQUARE = Palette.color('red').freeze
     DARK_SQUARE = Palette.color('reddish_brown').freeze
     GREEN_CIRCLE = "\u2022".freeze
+    DRAWABLE_HALF_MOVES = [100, 150].freeze
 
     def row_labels(index)
       # prints each row index in reverse
@@ -46,7 +47,8 @@ module Chess
 
     def display_moves_right
       print "#{colorize_rights('Enpassent', fen.enpassent)} |  "
-      print "#{colorize_rights('Castling', fen.castling_rights)}\n\n"
+      print "#{colorize_rights('Castling', fen.castling_rights)} |  "
+      print "#{colorize_count('Halfmove', fen.halfmove, DRAWABLE_HALF_MOVES)}\n\n"
     end
   end
 end
