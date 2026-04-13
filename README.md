@@ -28,7 +28,7 @@ To run this project locally, ensure you have **Ruby** installed (version 3.4.6 r
  ```
  2. Navigate to the directory:
  ```bash
-    cd chess
+    cd ruby-chess
  ```
  3. Run the game:
  ```bash
