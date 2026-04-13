@@ -47,7 +47,8 @@ module Chess
     end
 
     def king_in_check
-      puts 'DANGEROUS! your king is under attack select a piece to defend the king or select the king and escape!'
+      msg = 'DANGEROUS! your king is under attack select a piece to defend the king or select the king and escape!'
+      puts Colorize.foreground(Palette.color('reddish_brown'), msg)
       print '=> '
     end
 
