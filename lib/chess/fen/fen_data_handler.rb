@@ -35,18 +35,15 @@ module Chess
       return update_king_rights(piece.color) if piece.king?
       return unless piece.name == 'rook'
 
-      update_queenside_rights(piece.color, position)
-      update_kingside_rights(piece.color, position)
+      update_side_rights(piece.color, :queen_rook, position)
+      update_side_rights(piece.color, :king_rook, position)
     end
 
-    def update_kingside_rights(color, pos)
-      default_pos = Chess.default_piece_position(color, :king_rook)
-      delete_castling_right(KING_SIDE_CASTLING, color) if pos == default_pos
-    end
-
-    def update_queenside_rights(color, pos)
-      default_pos = Chess.default_piece_position(color, :queen_rook)
-      delete_castling_right(QUEEN_SIDE_CASTLING, color) if pos == default_pos
+    def update_side_rights(color, side, position)
+      side_letter = KING_SIDE_CASTLING
+      side_letter = QUEEN_SIDE_CASTLING if side == :queen_rook
+      default_position = Chess.default_piece_position(color, side)
+      delete_castling_right(side_letter, color) if position == default_position
     end
 
     def update_king_rights(color)

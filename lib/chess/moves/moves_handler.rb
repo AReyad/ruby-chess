@@ -59,5 +59,10 @@ module Chess
       change_value(position, selected_promotion)
       puts "Pawn promoted to #{at(position).name.capitalize}."
     end
+
+    def simulate_move(position, move)
+      capture_enpassent(position, move) if at(position)&.pawn? && enpassent_square?(move)
+      move_piece(position, move)
+    end
   end
 end

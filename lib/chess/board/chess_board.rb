@@ -15,9 +15,9 @@ module Chess
       fen.update_imported_castling(self)
     end
 
-    def display(board = game_board)
+    def display(positions = [], board = game_board)
       system 'clear'
-      display_board(board)
+      display_board(board, positions)
       print COLUMNS_LABELS
       display_moves_right
     end
@@ -68,7 +68,7 @@ module Chess
     end
 
     def asserted_draw?
-      fen.repeated_regular_moves?(125, 75) || fen.repeated_states?(5)
+      fen.repeated_regular_moves?(150, 75) || fen.repeated_states?(5)
     end
 
     def starting_player

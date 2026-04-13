@@ -24,7 +24,7 @@ module Chess
       opponent_positions = board.opponent_positions(color)
       available_moves(position, board).reject do |move|
         destination_value = board.at(move)
-        simulate_move(position, move, board)
+        board.simulate_move(position, move)
         check = board.king_in_check?(color, king_position, opponent_positions)
         board.reset_move(position, move, destination_value)
         check
@@ -80,11 +80,6 @@ module Chess
     end
 
     private
-
-    def simulate_move(position, move, board)
-      board.capture_enpassent(position, move) if board.at(position)&.pawn? && board.enpassent_square?(move)
-      board.move_piece(position, move)
-    end
 
     def piece_name
       name = self.class.to_s.downcase

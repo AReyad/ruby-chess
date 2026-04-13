@@ -7,7 +7,7 @@ module Chess
     end
 
     def invalid_selection(player, piece)
-      return puts "=> Invalid selection, you can't select an empty tile!" if piece.nil?
+      return empty_tile if piece.nil?
 
       return no_safe_moves(piece) if player.color == piece.color
 
@@ -15,11 +15,21 @@ module Chess
     end
 
     def invalid_incheck_selection(player, piece)
-      return puts "=> Invalid selection, you can't select an empty tile!" if piece.nil?
+      return empty_tile if piece.nil?
 
-      return puts "#{piece} can't defend king" if player.color == piece.color
+      return cant_defend_king(piece) if player.color == piece.color
 
       different_color_piece(piece)
+    end
+
+    def empty_tile
+      puts "=> Invalid selection, you can't select an empty tile!"
+      print '=> '
+    end
+
+    def cant_defend_king(piece)
+      puts "#{piece} can't defend king"
+      print '=> '
     end
 
     def post_selection(moves)
@@ -28,14 +38,17 @@ module Chess
 
     def no_safe_moves(piece)
       puts "=> #{piece} can't make any safe moves, select another piece."
+      print '=> '
     end
 
     def different_color_piece(piece)
       puts "=> #{piece} is of a different color, select a piece with the same color as yours."
+      print '=> '
     end
 
     def king_in_check
-      puts 'DANGEROUS! your king is under attack select a piece to defend the king or select the king and escape!'
+      msg = 'DANGEROUS! your king is under attack select a piece to defend the king or select the king and escape!'
+      puts Colorize.foreground(Palette.color('reddish_brown'), msg)
       print '=> '
     end
 
@@ -51,7 +64,8 @@ module Chess
 
     def save_confirmation
       system 'clear'
-      print '=> Do you want to save the game? Y\n: '
+      puts '=> Do you want to save the game? Y\n'
+      print '=> '
     end
 
     def exited
@@ -78,10 +92,6 @@ module Chess
 
     def promotion_option_msg
       '=> Type the number of promotion you want to promote your pawn into: '
-    end
-
-    def invalid_promotion
-      puts 'Invalid promotion number, please choose a correct number from above.'
     end
 
     def save_name_msg

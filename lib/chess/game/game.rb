@@ -41,9 +41,9 @@ module Chess
 
     def end_message
       board.display
-      return 'Game ended with a draw' if draw?
+      return "Congratulations, #{players[1].name} won!" if winner?
 
-      "Congratulations, #{players[1].name} won!"
+      'Game ended with a draw'
     end
 
     private
