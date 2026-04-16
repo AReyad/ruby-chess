@@ -15,11 +15,11 @@ module Chess
       fen.update_imported_castling(self)
     end
 
-    def display(positions = [], board = game_board)
+    def display(positions = [], piece = nil, board = game_board)
       system 'clear'
       display_board(board, positions)
       print COLUMNS_LABELS
-      display_moves_right
+      display_moves_right(piece)
     end
 
     def at(position)

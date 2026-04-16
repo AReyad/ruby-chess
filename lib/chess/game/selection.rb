@@ -6,7 +6,7 @@ module Chess
         return piece_position if %w[save exit].include?(piece_position)
 
         moves = board.at(piece_position).safe_moves(piece_position, board)
-        board.display(moves)
+        board.display(moves, piece_position)
         destination = select_destination(current_player, moves)
         next if destination == 'back'
 

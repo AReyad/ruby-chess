@@ -5,6 +5,7 @@ module Chess
     module_function
 
     def convert_move(move)
+      return if move.nil?
       return convert_algebraic_move(move) if move.is_a?(String)
 
       convert_coord_move(move)

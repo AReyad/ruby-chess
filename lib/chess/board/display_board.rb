@@ -45,10 +45,11 @@ module Chess
       colors.rotate!
     end
 
-    def display_moves_right
+    def display_moves_right(piece_position)
       print "#{colorize_rights('Enpassent', fen.enpassent)} |  "
       print "#{colorize_rights('Castling', fen.castling_rights)} |  "
-      print "#{colorize_count('Halfmove', fen.halfmove, DRAWABLE_HALF_MOVES)}\n\n"
+      print "#{colorize_count('Halfmove', fen.halfmove, DRAWABLE_HALF_MOVES)} \n\n"
+      print "#{colorize_rights('Selected piece', convert_move(piece_position))} \n"
     end
   end
 end
